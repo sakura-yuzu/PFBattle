@@ -5,6 +5,10 @@ class BaseButton : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointerEnte
 {
 	public BackgroundManager backgroundManager;
 
+	void Awake(){
+		GetComponent<Button>().onClick.AddListener(()=>Debug.Log("onClick"));
+	}
+
 	public void OnSelect(BaseEventData e){
 		backgroundManager.select();
 		// soundManager.Play();
