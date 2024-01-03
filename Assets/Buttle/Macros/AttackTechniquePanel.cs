@@ -16,7 +16,7 @@ class AttackTechniquePanel : ButtonPanel
 	}
 
 	private async void Prepare(){
-		var buttonPrefab = await Addressables.LoadAssetAsync<GameObject>("Button").Task;
+		var buttonPrefab = await Addressables.LoadAssetAsync<GameObject>("SystemButton").Task;
 		foreach(Skill skill in skillManager.getAll())
 		{
 			buttons.Add(Instantiate(buttonPrefab, scrollArea).GetComponent<Button>());

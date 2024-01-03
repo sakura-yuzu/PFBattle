@@ -29,6 +29,7 @@ class SkillPanel : ButtonPanel
 		}
 	}
 
+// これの戻り値がtuple
 	// public async UniTask<int> SelectSkill(CancellationToken cancellationToken){
 	// 	return await UniTask.WhenAny(buttons.Select(button => button.OnClickAsAsyncEnumerable().FirstOrDefaultAsync(cancellationToken: cancellationToken)));
 	// }

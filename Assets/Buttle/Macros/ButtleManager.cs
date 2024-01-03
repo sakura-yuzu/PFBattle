@@ -26,9 +26,13 @@ class ButtleManager : MonoBehaviour
 	public GameObject enemyListPanel;
 	public GameObject skillPanel;
 
+	private bool ButtleEnd = false;
+
+	private CancellationTokenSource m_cancellationTokenSource;
+
 	void Awake()
 	{
-		cancellationToken = this.GetCancellationTokenOnDestroy();
+		cancellationToken = m_cancellationTokenSource.Token;
 		enemyPosition = new Vector3[]{
 			new Vector3(-6,2,2),
 			new Vector3(-2,2,2),
@@ -64,44 +68,60 @@ class ButtleManager : MonoBehaviour
 		}
 	}
 
-	private async void Buttle()
+    private void Update()
+    {
+        if ( Input.GetKeyDown( KeyCode.Z ) )
+        {
+            Buttle().Forget();
+        }
+        else if ( Input.GetKeyDown( KeyCode.Escape ) )
+        {
+            Debug.Log( "キャンセル" );
+
+            m_cancellationTokenSource?.Cancel();
+            m_cancellationTokenSource = null;
+        }
+    }
+
+	private async UniTaskVoid Buttle()
 	{
 		// 与ダメを計算する
 		// 残っているエネミーの攻撃を計算する
 		// ユーザーの版
-
-
-		bool win = false;
-		bool lose = false;
-
-		// while(true){
+		
+		// do{
 		// ユーザーの入力を待つ
 		await PlayerAction();
-		// await calculatePlayerAttack();
 		// await EnemyAttack();
-		// };
+		// }while(ButtleEnd);
 	}
 
 	private async UniTask PlayerAction()
 	{
-		// (action, target) = await PlayerDecide();
-		// 	await ActionPanel.AwaitAnyButtonClikedAsync();
+		// TODO 何を返すか決めてない
 		var action = await UniTask.WhenAny(actionButtons
 											.Select(button => button.OnClickAsync(cancellationToken)));
 		switch(action){
-			// case 0:
-			// 	var attackTechnique = await SelectAttackTechnique(cancellationToken);
-			// 	var target = await SelectAttackTarget(cancellationToken);
-			// 	break;
-			case 1:
-			var skill = await SelectSkill(cancellationToken);
+			case 0:
+				var (attackTechnique, target) = await SelectAttackTechnique(cancellationToken);
+				// var target = await SelectAttackTarget(cancellationToken);
+				return calculateAttackEffect();
 				break;
-			// case 2:
-			// 	break;
-			// case 3:
-			// 	break;
+			case 1:
+				var (skill, target) = await SelectSkill(cancellationToken);
+				// var target = await SelectSkillTarget(cancellationToken);
+				return calculateSkillEffect();
+				break;
+			case 2:
+				var (item, target) = await SelectItem(cancellationToken);
+				// var target = await SelectItemTarget(cancellationToken);
+				return calculateItemEffect();
+				break;
+			case 3:
+				var target = await SelectDefenceTarget(cancellationToken);
+				return calculateDefenceEffect();
+				break;
 		}
-		// return null;
 	}
 
 	// private async UniTask<int> SelectAttackTechnique(CancellationToken cancellationToken){
@@ -123,12 +143,12 @@ class ButtleManager : MonoBehaviour
 		return await skillPanelComponent.AwaitAnyButtonClikedAsync(cancellationToken);
 	}
 
-	private async UniTask<int> SelectSkillTarget(CancellationToken cancellationToken)
-	{
-		skillPanel.SetActive(true);
-		SkillPanel skillPanelComponent = skillPanel.GetComponent<SkillPanel>();
-		return await skillPanelComponent.AwaitAnyButtonClikedAsync(cancellationToken);
-	}
+	// private async UniTask<int> SelectSkillTarget(CancellationToken cancellationToken)
+	// {
+	// 	skillPanel.SetActive(true);
+	// 	SkillPanel skillPanelComponent = skillPanel.GetComponent<SkillPanel>();
+	// 	return await skillPanelComponent.AwaitAnyButtonClikedAsync(cancellationToken);
+	// }
 
 	// (int min, int max) FindMinMax(int[] input){
 
