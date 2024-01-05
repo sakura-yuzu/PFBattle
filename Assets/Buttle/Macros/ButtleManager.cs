@@ -20,8 +20,10 @@ class ButtleManager : MonoBehaviour
 	private Vector3[] enemyPosition;
 
 	private CancellationToken cancellationToken;
-	public GameObject skillPanel;
+	public Canvas skillPanel;
+	public Canvas itemPanel;
 	public Canvas selectActionPanel;
+	public Canvas selectTargetAllyPanel;
 	public Canvas selectTargetEnemyPanel;
 
 	private List<Button> allyButtons;
@@ -115,8 +117,6 @@ class ButtleManager : MonoBehaviour
 		switch(actionGroup){
 			case 0:
 				action = await SelectAttackTarget(cancellationToken);
-				Debug.Log("目印");
-				Debug.Log(action);
 				// var target = await SelectAttackTarget(cancellationToken);
 				// return calculateAttackEffect();
 				break;
@@ -126,12 +126,12 @@ class ButtleManager : MonoBehaviour
 				// return calculateSkillEffect();
 				break;
 			case 2:
-				// var act = await SelectItem(cancellationToken);
+				var act = await SelectItem(cancellationToken);
 				// var target = await SelectItemTarget(cancellationToken);
 				// return calculateItemEffect();
 				break;
 			case 3:
-				// var target = await SelectDefenceTarget(cancellationToken);
+				var target = await SelectDefenceTarget(cancellationToken);
 				// return calculateDefenceEffect();
 				break;
 		}
@@ -150,21 +150,42 @@ class ButtleManager : MonoBehaviour
 
 	private async UniTask<Action> SelectSkill(CancellationToken cancellationToken)
 	{
-		skillPanel.SetActive(true);
+		skillPanel.enabled = true;
 		SkillPanel skillPanelComponent = skillPanel.GetComponent<SkillPanel>();
-		return await skillPanelComponent.AwaitAnyButtonClikedAsync(cancellationToken);
+		skillPanelComponent.allySelectPanel = selectTargetAllyPanel;
+		SelectTargetAllyPanel selectTargetAllyPanelComponent = selectTargetAllyPanel.GetComponent<SelectTargetAllyPanel>();
+		selectTargetAllyPanelComponent.setAllies(allies);
+		
+		skillPanelComponent.enemySelectPanel = selectTargetEnemyPanel;
+		SelectTargetEnemyPanel selectTargetEnemyPanelComponent = selectTargetEnemyPanel.GetComponent<SelectTargetEnemyPanel>();
+		selectTargetEnemyPanelComponent.setEnemies(enemies);
+		Action act = await skillPanelComponent.AwaitAnyButtonClikedAsync(cancellationToken);
+		skillPanel.enabled = false;
+		return act;
 	}
 	private async UniTask<Action> SelectItem(CancellationToken cancellationToken)
 	{
-		skillPanel.SetActive(true);
-		SkillPanel skillPanelComponent = skillPanel.GetComponent<SkillPanel>();
-		return await skillPanelComponent.AwaitAnyButtonClikedAsync(cancellationToken);
+		itemPanel.enabled = true;
+		ItemPanel itemPanelComponent = itemPanel.GetComponent<ItemPanel>();
+		itemPanelComponent.allySelectPanel = selectTargetAllyPanel;
+		SelectTargetAllyPanel selectTargetAllyPanelComponent = selectTargetAllyPanel.GetComponent<SelectTargetAllyPanel>();
+		selectTargetAllyPanelComponent.setAllies(allies);
+
+		// itemPanelComponent.enemySelectPanel = selectTargetEnemyPanel;
+		// SelectTargetEnemyPanel selectTargetEnemyPanelComponent = selectTargetEnemyPanel.GetComponent<SelectTargetEnemyPanel>();
+		// selectTargetEnemyPanelComponent.setEnemies(enemies);
+		Action act = await itemPanelComponent.AwaitAnyButtonClikedAsync(cancellationToken);
+		itemPanel.enabled = false;
+		return act;
 	}
 	private async UniTask<Action> SelectDefenceTarget(CancellationToken cancellationToken)
 	{
-		skillPanel.SetActive(true);
-		SkillPanel skillPanelComponent = skillPanel.GetComponent<SkillPanel>();
-		return await skillPanelComponent.AwaitAnyButtonClikedAsync(cancellationToken);
+		selectTargetAllyPanel.enabled = true;
+		SelectTargetAllyPanel selectTargetAllyPanelComponent = selectTargetAllyPanel.GetComponent<SelectTargetAllyPanel>();
+		selectTargetAllyPanelComponent.setAllies(allies);
+		Action act = await selectTargetAllyPanelComponent.AwaitAnyButtonClikedAsync(cancellationToken);
+		selectTargetAllyPanel.enabled = false;
+		return act;
 	}
 
 }

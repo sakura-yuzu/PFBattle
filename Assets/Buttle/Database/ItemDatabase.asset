@@ -9,15 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f51d37ee7d8dab640afde2b7318e51a9, type: 3}
-  m_Name: Thunder
+  m_Script: {fileID: 11500000, guid: 67a5740f4e675cc4baa1de448a2fdb58, type: 3}
+  m_Name: ItemDatabase
   m_EditorClassIdentifier: 
-  id: 0
-  skillName: Thunder
-  description: 
-  requiredPoint: 0
-  target: 0
-  acquired: 0
-  weaponType: 0
-  attributeType: 0
-  skillType: 0
+  itemList:
+  - {fileID: 11400000, guid: 4c3fef826003eb94a98a90a581f9a023, type: 2}

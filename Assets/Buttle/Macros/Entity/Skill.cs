@@ -15,6 +15,7 @@ public class Skill : ScriptableObject
     public bool acquired;                               // 習得済み
     public int weaponType;                              // このスキルを利用できる武器　あとでenum書く
     public int attributeType;                           // 属性
+    public SkillType skillType;
 
     public enum WeaponEnum
     {
@@ -30,5 +31,11 @@ public class Skill : ScriptableObject
         Fire,                                            // 炎
         Thunder,                                         // 雷
         Ice,                                             // 氷
+    }
+
+    public enum SkillType
+    {
+        Enchant,                                         // 回復とかバフとか
+        Attack                                           // 攻撃とかデバフとか
     }
 }

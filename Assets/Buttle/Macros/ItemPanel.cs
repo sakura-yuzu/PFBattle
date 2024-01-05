@@ -8,10 +8,10 @@ using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
-class SkillPanel : ButtonPanel
+class ItemPanel : ButtonPanel
 {
-	public SkillDatabase skillDatabase;
-	private SkillManager skillManager;
+	public ItemDatabase itemDatabase;
+	private ItemManager itemManager;
 	public Transform scrollArea;
 
 	public Canvas allySelectPanel;
@@ -19,17 +19,17 @@ class SkillPanel : ButtonPanel
 
 	void Awake()
 	{
-		skillManager = new SkillManager(skillDatabase);
+		itemManager = new ItemManager(itemDatabase);
 		Prepare();
 	}
 
 	private async void Prepare()
 	{
 		var buttonPrefab = await Addressables.LoadAssetAsync<GameObject>("SystemButton").Task;
-		foreach (Skill skill in skillManager.getAll())
+		foreach (Item item in itemManager.getAll())
 		{
 			var button = Instantiate(buttonPrefab, scrollArea);
-			button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = skill.skillName;
+			button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = item.itemName;
 			buttons.Add(button.GetComponent<Button>());
 		}
 	}
@@ -40,21 +40,13 @@ class SkillPanel : ButtonPanel
 										.Select(button => button.OnClickAsync(cancellationToken)));
 		Debug.Log(pushed);
 		Action act = new Action();
-		Skill selectedSkill = skillManager.getAll()[pushed];
+		Item selectedItem = itemManager.getAll()[pushed];
 
-		if (selectedSkill.skillType == Skill.SkillType.Enchant)
-		{
-			allySelectPanel.enabled = true;
-			act = await allySelectPanel.GetComponent<SelectTargetAllyPanel>().AwaitAnyButtonClikedAsync(cancellationToken);
-			allySelectPanel.enabled = false;
-		}
-		else
-		{
-			enemySelectPanel.enabled = true;
-			act = await enemySelectPanel.GetComponent<SelectTargetEnemyPanel>().AwaitAnyButtonClikedAsync(cancellationToken);
-			enemySelectPanel.enabled = false;
-		}
-		act.skill = selectedSkill;
+		allySelectPanel.enabled = true;
+		act = await allySelectPanel.GetComponent<SelectTargetAllyPanel>().AwaitAnyButtonClikedAsync(cancellationToken);
+		allySelectPanel.enabled = false;
+
+		act.item = selectedItem;
 		return act;
 	}
 }
