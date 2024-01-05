@@ -29,8 +29,17 @@ class SkillPanel : ButtonPanel
 		}
 	}
 
-// これの戻り値がtuple
-	// public async UniTask<int> SelectSkill(CancellationToken cancellationToken){
-	// 	return await UniTask.WhenAny(buttons.Select(button => button.OnClickAsAsyncEnumerable().FirstOrDefaultAsync(cancellationToken: cancellationToken)));
-	// }
+	public async UniTask<Action> AwaitAnyButtonClikedAsync(CancellationToken cancellationToken)
+    {
+			var pushed = await UniTask.WhenAny(buttons
+    									.Select(button => button.OnClickAsync(cancellationToken)));
+			Debug.Log(pushed);
+			return new Action();
+			// if(nextPanel){
+			// 	return await nextPanel.AwaitAnyButtonClikedAsync(cancellationToken);
+			// }else{
+      //   //ボタンのどれかが押されたら完了
+      //   return pushed;
+			// }
+    }
 }
