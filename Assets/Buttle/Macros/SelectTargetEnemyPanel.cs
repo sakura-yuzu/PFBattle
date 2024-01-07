@@ -15,7 +15,8 @@ class SelectTargetEnemyPanel : ButtonPanel
 	private Enemy[] enemies;
 
 	void Awake(){
-		// Prepare();
+		Debug.Log("SelectTargetEnemyPanel::Awake");
+		Prepare();
 	}
 
 	public void setEnemies(Enemy[] _enemies){
@@ -31,10 +32,8 @@ class SelectTargetEnemyPanel : ButtonPanel
 	}
 		public async UniTask<Action> AwaitAnyButtonClikedAsync(CancellationToken cancellationToken)
     {
-			await Prepare();
 			var pushed = await UniTask.WhenAny(buttons
     									.Select(button => button.OnClickAsync(cancellationToken)));
-			Debug.Log(pushed);
 			Action act =  new Action();
 			act.targetEnemy = enemies[pushed];
 			return act;

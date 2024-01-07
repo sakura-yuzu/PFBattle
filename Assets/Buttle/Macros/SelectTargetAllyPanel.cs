@@ -15,7 +15,8 @@ class SelectTargetAllyPanel : ButtonPanel
 	private Character[] allies;
 
 	void Awake(){
-		// Prepare();
+		Debug.Log("SelectTargetAllyPanel::Awake");
+		Prepare();
 	}
 
 	public void setAllies(Character[] _allies){
@@ -31,10 +32,8 @@ class SelectTargetAllyPanel : ButtonPanel
 	}
 		public async UniTask<Action> AwaitAnyButtonClikedAsync(CancellationToken cancellationToken)
     {
-			await Prepare();
 			var pushed = await UniTask.WhenAny(buttons
     									.Select(button => button.OnClickAsync(cancellationToken)));
-			Debug.Log(pushed);
 			Action act =  new Action();
 			act.targetAlly = allies[pushed];
 			return act;
