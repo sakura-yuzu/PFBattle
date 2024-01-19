@@ -30,7 +30,7 @@ class SelectTargetAllyPanel : ButtonPanel
 			buttons.Add(Instantiate(buttonPrefab, parentPanel).GetComponent<Button>());
 		}
 	}
-		public async UniTask<Action> AwaitAnyButtonClikedAsync(CancellationToken cancellationToken)
+		public override async UniTask<Action> AwaitAnyButtonClickedAsync(CancellationToken cancellationToken)
     {
 			var pushed = await UniTask.WhenAny(buttons
     									.Select(button => button.OnClickAsync(cancellationToken)));

@@ -1,12 +1,14 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-class BaseButton : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointerEnterHandler, IPointerExitHandler
+class BaseButton : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointerEnterHandler, IPointerExitHandler, ICancelHandler
 {
 	public BackgroundManager backgroundManager;
 
+	// public ButtonPanel parentPanel;
+
 	void Awake(){
-		GetComponent<Button>().onClick.AddListener(()=>Debug.Log("onClick"));
+		// GetComponent<Button>().onClick.AddListener(()=>Debug.Log("onClick"));
 	}
 
 	public void OnSelect(BaseEventData e){
@@ -24,5 +26,9 @@ class BaseButton : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointerEnte
 
 	public void OnPointerExit(PointerEventData e){
 		backgroundManager.deselect();
+	}
+
+	public void OnCancel(BaseEventData eventData){
+	// 	parentPanel?.Cancel();
 	}
 }

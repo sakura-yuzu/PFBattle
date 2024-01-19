@@ -19,6 +19,7 @@ class ItemPanel : ButtonPanel
 
 	void Awake()
 	{
+		Debug.Log("ItemPanel.Awake");
 		itemManager = new ItemManager(itemDatabase);
 		Prepare();
 	}
@@ -34,7 +35,7 @@ class ItemPanel : ButtonPanel
 		}
 	}
 
-	public async UniTask<Action> AwaitAnyButtonClikedAsync(CancellationToken cancellationToken)
+	public override async UniTask<Action> AwaitAnyButtonClickedAsync(CancellationToken cancellationToken)
 	{
 		var pushed = await UniTask.WhenAny(buttons
 										.Select(button => button.OnClickAsync(cancellationToken)));
@@ -42,8 +43,10 @@ class ItemPanel : ButtonPanel
 		Action act = new Action();
 		Item selectedItem = itemManager.getAll()[pushed];
 
+		m_cancellationTokenSource = null;
+
 		allySelectPanel.enabled = true;
-		act = await allySelectPanel.GetComponent<SelectTargetAllyPanel>().AwaitAnyButtonClikedAsync(cancellationToken);
+		act = await allySelectPanel.GetComponent<SelectTargetAllyPanel>().AwaitAnyButtonClickOrCancelAsync(cancellationToken);
 		allySelectPanel.enabled = false;
 
 		act.item = selectedItem;

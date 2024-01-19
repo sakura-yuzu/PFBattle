@@ -34,7 +34,7 @@ class SkillPanel : ButtonPanel
 		}
 	}
 
-	public async UniTask<Action> AwaitAnyButtonClikedAsync(CancellationToken cancellationToken)
+	public override async UniTask<Action> AwaitAnyButtonClickedAsync(CancellationToken cancellationToken)
 	{
 		var pushed = await UniTask.WhenAny(buttons
 										.Select(button => button.OnClickAsync(cancellationToken)));
@@ -45,13 +45,13 @@ class SkillPanel : ButtonPanel
 		if (selectedSkill.skillType == Skill.SkillType.Enchant)
 		{
 			allySelectPanel.enabled = true;
-			act = await allySelectPanel.GetComponent<SelectTargetAllyPanel>().AwaitAnyButtonClikedAsync(cancellationToken);
+			act = await allySelectPanel.GetComponent<SelectTargetAllyPanel>().AwaitAnyButtonClickOrCancelAsync(cancellationToken);
 			allySelectPanel.enabled = false;
 		}
 		else
 		{
 			enemySelectPanel.enabled = true;
-			act = await enemySelectPanel.GetComponent<SelectTargetEnemyPanel>().AwaitAnyButtonClikedAsync(cancellationToken);
+			act = await enemySelectPanel.GetComponent<SelectTargetEnemyPanel>().AwaitAnyButtonClickOrCancelAsync(cancellationToken);
 			enemySelectPanel.enabled = false;
 		}
 		act.skill = selectedSkill;
