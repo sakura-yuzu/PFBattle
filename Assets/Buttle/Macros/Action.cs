@@ -5,4 +5,12 @@ class Action
 	public Skill skill;
 	public Character targetAlly;
 	public Enemy targetEnemy;
+
+	public enum Types
+	{
+		Attack,
+		Defence,
+		Skill,
+		Item
+	}
 }

@@ -20,8 +20,12 @@ class ButtleManager : MonoBehaviour
 	private Vector3[] enemyPosition;
 
 	private CancellationToken cancellationToken;
-	public Canvas selectActionPanel;
-	private SelectActionPanel selectActionPanelComponent;
+	public Canvas selectTargetAllyPanel;
+	public Canvas selectTargetEnemyPanel;
+
+	private List<GameObject> allyActionPanelList;
+	private SelectTargetAllyPanel selectTargetAllyPanelComponent;
+	private SelectTargetEnemyPanel selectTargetEnemyPanelComponent;
 
 	private bool ButtleEnd = false;
 
@@ -39,7 +43,18 @@ class ButtleManager : MonoBehaviour
 
 	private async UniTask Prepare()
 	{
+
+		selectTargetEnemyPanelComponent = selectTargetEnemyPanel.GetComponent<SelectTargetEnemyPanel>();
+		selectTargetEnemyPanelComponent.setEnemies(enemies);
+		selectTargetEnemyPanel.gameObject.SetActive(true);
+
+		selectTargetAllyPanelComponent = selectTargetAllyPanel.GetComponent<SelectTargetAllyPanel>();
+		selectTargetAllyPanelComponent.setAllies(allies);
+		selectTargetAllyPanelComponent.gameObject.SetActive(true);
+
+		allyActionPanelList = new List<GameObject>();
 		var allyPrefab = await Addressables.LoadAssetAsync<GameObject>("AllyButton").Task;
+		var actionPanelPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/Action.prefab").Task;
 		var enemyPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/Bird.prefab").Task;
 
 		foreach (Character character in allies)
@@ -53,6 +68,16 @@ class ButtleManager : MonoBehaviour
 			CharacterSelectButton characterButton = ally.GetComponent<CharacterSelectButton>();
 			characterButton.character = character;
 			characterButton.Prepare(); // TODO: これキモくね？
+
+			GameObject allyActionPanel = Instantiate(actionPanelPrefab);
+			AllyActionPanel allyActionPanelComponent = allyActionPanel.GetComponent<AllyActionPanel>();
+			allyActionPanelComponent.character = character;
+			allyActionPanelComponent.selectTargetAllyPanel = selectTargetAllyPanel;
+			allyActionPanelComponent.selectTargetAllyPanelComponent = selectTargetAllyPanelComponent;
+			allyActionPanelComponent.selectTargetEnemyPanel = selectTargetEnemyPanel;
+			allyActionPanelComponent.selectTargetEnemyPanelComponent = selectTargetEnemyPanelComponent;
+			await allyActionPanelComponent.Prepare();
+			allyActionPanelList.Add(allyActionPanel);
 		}
 
 		foreach (Vector3 position in enemyPosition)
@@ -61,20 +86,14 @@ class ButtleManager : MonoBehaviour
 			Transform transform = enemy.transform;
 			transform.position = position;
 		}
-
-		selectActionPanelComponent = selectActionPanel.GetComponent<SelectActionPanel>();
-		selectActionPanelComponent.enemies = enemies;
-		selectActionPanelComponent.allies = allies;
-		selectActionPanelComponent.Prepare();
 	}
 
 	private async UniTaskVoid Buttle()
 	{
 		cancellationToken = this.GetCancellationTokenOnDestroy();
-
 		// do{
 		// ユーザーの入力を待つ
-		await PlayerAction();
+		await PlayerAction(cancellationToken);
 		// 与ダメを計算する
 		// 残っているエネミーの攻撃を計算する
 		// await EnemyAttack();
@@ -82,16 +101,14 @@ class ButtleManager : MonoBehaviour
 		// }while(ButtleEnd);
 	}
 
-	private async UniTask<List<Action>> PlayerAction()
+	private async UniTask<List<Action>> PlayerAction(CancellationToken cancellationToken)
 	{
 		List<Action> actions = new List<Action>();
 
-		for (int i = 0; i < allies.Length; i++)
-		{
-			var who = allies[i];
-			Action action = await SelectAction(cancellationToken);
-			action.actioner = who;
-			actions.Add(action);
+		foreach(GameObject allyActionPanel in allyActionPanelList){
+			allyActionPanel.GetComponent<Canvas>().enabled = true;
+			Action action = await allyActionPanel.GetComponent<AllyActionPanel>().AwaitAnyButtonClickedAsync(cancellationToken);
+			allyActionPanel.GetComponent<Canvas>().enabled = false;
 		}
 
 		return actions;
@@ -99,11 +116,7 @@ class ButtleManager : MonoBehaviour
 
 	private async UniTask<Action> SelectAction(CancellationToken cancellationToken)
 	{
-		selectActionPanel.enabled = true;
-		Action action = await selectActionPanelComponent.AwaitAnyButtonClickedAsync(cancellationToken);
-// FIXME who渡した方がよさそうな気がする
-		selectActionPanel.enabled = false;
-		return action;
+		return new Action();
 	}
 
 }

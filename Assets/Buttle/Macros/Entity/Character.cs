@@ -19,4 +19,6 @@ public class Character : ScriptableObject
 	public Sprite selectedImage;
 	public Sprite deselectedImage;
 
+    public List<Skill> skills;
+
 }
