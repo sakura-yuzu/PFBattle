@@ -12,7 +12,8 @@ using Cysharp.Threading.Tasks;
 class ButtleManager : MonoBehaviour
 {
 
-	public Enemy[] enemies;
+	public Enemy enemy;
+	public List<EnemyClass> enemies;
 	public Character[] allies;
 
 	public Transform allyListArea;
@@ -44,6 +45,16 @@ class ButtleManager : MonoBehaviour
 	private async UniTask Prepare()
 	{
 
+		for(int i=0;i<4;i++){
+			EnemyClass enemyClass = new EnemyClass(enemy);
+			enemies.Add(enemyClass);
+			var enemyPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/Bird.prefab").Task;
+			Vector3 position = enemyPosition[i];
+			GameObject enemyObject = Instantiate(enemyPrefab);
+			Transform transform = enemyObject.transform;
+			transform.position = position;
+		}
+
 		selectTargetEnemyPanelComponent = selectTargetEnemyPanel.GetComponent<SelectTargetEnemyPanel>();
 		selectTargetEnemyPanelComponent.setEnemies(enemies);
 		selectTargetEnemyPanel.gameObject.SetActive(true);
@@ -55,7 +66,6 @@ class ButtleManager : MonoBehaviour
 		allyActionPanelList = new List<GameObject>();
 		var allyPrefab = await Addressables.LoadAssetAsync<GameObject>("AllyButton").Task;
 		var actionPanelPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/Action.prefab").Task;
-		var enemyPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/Bird.prefab").Task;
 
 		foreach (Character character in allies)
 		{
@@ -79,25 +89,18 @@ class ButtleManager : MonoBehaviour
 			await allyActionPanelComponent.Prepare();
 			allyActionPanelList.Add(allyActionPanel);
 		}
-
-		foreach (Vector3 position in enemyPosition)
-		{
-			GameObject enemy = Instantiate(enemyPrefab);
-			Transform transform = enemy.transform;
-			transform.position = position;
-		}
 	}
 
 	private async UniTaskVoid Buttle()
 	{
 		cancellationToken = this.GetCancellationTokenOnDestroy();
 		// do{
-		// ユーザーの入力を待つ
+			// ユーザーの入力を待つ
 		await PlayerAction(cancellationToken);
-		// 与ダメを計算する
-		// 残っているエネミーの攻撃を計算する
-		// await EnemyAttack();
-		// ユーザーの版
+			// 与ダメを計算する
+			// 残っているエネミーの攻撃を計算する
+			// await EnemyAttack();
+			// ユーザーの版
 		// }while(ButtleEnd);
 	}
 

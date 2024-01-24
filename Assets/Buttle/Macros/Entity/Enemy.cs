@@ -18,5 +18,7 @@ public class Enemy : ScriptableObject
     // public int exp;
     // public List<Item> dropItem;
 
+    public string prefabAddress;
+
 
 }

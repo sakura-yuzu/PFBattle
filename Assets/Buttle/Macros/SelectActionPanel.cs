@@ -20,7 +20,7 @@ class SelectActionPanel : ButtonPanel
 	private SelectTargetAllyPanel selectTargetAllyPanelComponent;
 	private SelectTargetEnemyPanel selectTargetEnemyPanelComponent;
 	private ItemPanel itemPanelComponent;
-	public Enemy[] enemies;
+	public List<EnemyClass> enemies;
 	public Character[] allies;
 
 	public async void Prepare()

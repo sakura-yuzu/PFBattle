@@ -6,34 +6,43 @@ using System.Collections.Generic;
 using System.Linq;
 
 using System.Threading;
+using System;
 using Cysharp.Threading.Tasks;
 using TMPro;
 class SelectTargetEnemyPanel : ButtonPanel
 {
 	public Transform parentPanel;
 
-	private Enemy[] enemies;
+	private List<EnemyClass> enemies;
 
 	void Awake(){
 		// Debug.Log("SelectTargetEnemyPanel::Awake");
 		Prepare();
 	}
 
-	public void setEnemies(Enemy[] _enemies){
+	public void setEnemies(List<EnemyClass> _enemies){
 		enemies = _enemies;
 	}
 
 	private async UniTask Prepare(){
 		var buttonPrefab = await Addressables.LoadAssetAsync<GameObject>("SystemButton").Task;
-		foreach(Enemy enemy in enemies)
+		GameObject instance;
+		Button button;
+		SystemButton systemButton;
+		foreach(EnemyClass enemy in enemies)
 		{
-			buttons.Add(Instantiate(buttonPrefab, parentPanel).GetComponent<Button>());
+			instance = Instantiate(buttonPrefab, parentPanel);
+			button = instance.GetComponent<Button>();
+			systemButton = instance.GetComponent<SystemButton>();
+			systemButton.setText(enemy.name);
+			buttons.Add(button);
 		}
 	}
 		public override async UniTask<Action> AwaitAnyButtonClickedAsync(CancellationToken cancellationToken)
     {
 			var pushed = await UniTask.WhenAny(buttons
     									.Select(button => button.OnClickAsync(cancellationToken)));
+			// await UniTask.Delay(TimeSpan.FromSeconds(5f));
 			Action act =  new Action();
 			act.targetEnemy = enemies[pushed];
 			return act;
