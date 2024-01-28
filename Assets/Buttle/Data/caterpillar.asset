@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b9a0f68a6992ab4e91f3dbb81396808, type: 3}
-  m_Name: New Enemy
+  m_Name: caterpillar
   m_EditorClassIdentifier: 
   id: 0
-  enemyName: Enemy
+  enemyName: caterpiller
   image: {fileID: 0}
-  hp: 200
+  hp: 0
   mp: 0
   attackPower: 0
   defensePower: 0
-  prefabAddress: Assets/Buttle/Prefab/Bird.prefab
+  prefabAddress: Assets/Buttle/Prefab/caterpiller.prefab

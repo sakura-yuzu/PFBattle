@@ -48,7 +48,7 @@ class ButtleManager : MonoBehaviour
 		for(int i=0;i<4;i++){
 			EnemyClass enemyClass = new EnemyClass(enemy);
 			enemies.Add(enemyClass);
-			var enemyPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/Bird.prefab").Task;
+			var enemyPrefab = await Addressables.LoadAssetAsync<GameObject>(enemy.prefabAddress).Task;
 			Vector3 position = enemyPosition[i];
 			GameObject enemyObject = Instantiate(enemyPrefab);
 			Transform transform = enemyObject.transform;
@@ -94,14 +94,15 @@ class ButtleManager : MonoBehaviour
 	private async UniTaskVoid Buttle()
 	{
 		cancellationToken = this.GetCancellationTokenOnDestroy();
-		// do{
+		do{
 			// ユーザーの入力を待つ
-		await PlayerAction(cancellationToken);
+			List<Action> actions = await PlayerAction(cancellationToken);
 			// 与ダメを計算する
+			bool BattleEnd = await Calculate(actions, cancellationToken);
 			// 残っているエネミーの攻撃を計算する
 			// await EnemyAttack();
 			// ユーザーの版
-		// }while(ButtleEnd);
+		}while(ButtleEnd);
 	}
 
 	private async UniTask<List<Action>> PlayerAction(CancellationToken cancellationToken)
@@ -112,14 +113,31 @@ class ButtleManager : MonoBehaviour
 			allyActionPanel.GetComponent<Canvas>().enabled = true;
 			Action action = await allyActionPanel.GetComponent<AllyActionPanel>().AwaitAnyButtonClickedAsync(cancellationToken);
 			allyActionPanel.GetComponent<Canvas>().enabled = false;
+			actions.Add(action);
 		}
 
 		return actions;
 	}
 
-	private async UniTask<Action> SelectAction(CancellationToken cancellationToken)
+	private async UniTask<bool> Calculate(List<Action> actions, CancellationToken cancellationToken)
 	{
-		return new Action();
+		Debug.Log("目印");
+		// TODO: キャラクターの素早さを加味する
+		foreach(Action action in actions){
+			// TODO: HPがゼロになったエネミーを削除する
+			switch(action.actionType){
+				case Action.Types.Attack:
+					Debug.Log("ActionType.Attack");
+					action.targetEnemy.hp -= 100;
+					action.targetEnemy.Damaged();
+					Debug.Log(action.targetEnemy.hp);
+					break;
+				default:
+					Debug.Log("Default");
+					break;
+			}
+		}
+		return true;
 	}
 
 }

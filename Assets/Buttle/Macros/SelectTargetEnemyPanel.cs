@@ -44,6 +44,11 @@ class SelectTargetEnemyPanel : ButtonPanel
     									.Select(button => button.OnClickAsync(cancellationToken)));
 			// await UniTask.Delay(TimeSpan.FromSeconds(5f));
 			Action act =  new Action();
+			Debug.Log(pushed);
+			// FIXME: enemiesがnull4つになってる
+			foreach(EnemyClass enemy in enemies){
+				Debug.Log(enemy);
+			}
 			act.targetEnemy = enemies[pushed];
 			return act;
     }

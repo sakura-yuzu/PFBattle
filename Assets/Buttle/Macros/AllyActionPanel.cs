@@ -47,6 +47,7 @@ class AllyActionPanel : ButtonPanel
 				selectTargetEnemyPanel.enabled = true;
 				action = await selectTargetEnemyPanelComponent.AwaitAnyButtonClickOrCancelAsync(cancellationToken);
 				selectTargetEnemyPanel.enabled = false;
+				action.actionType = Action.Types.Attack;
 				action.actioner = character;
 				return action;
 			case Action.Types.Defence:
@@ -54,6 +55,7 @@ class AllyActionPanel : ButtonPanel
 				selectTargetAllyPanel.enabled = true;
 				action = await selectTargetAllyPanelComponent.AwaitAnyButtonClickOrCancelAsync(cancellationToken);
 				selectTargetAllyPanel.enabled = false;
+				action.actionType = Action.Types.Defence;
 				action.actioner = character;
 				return action;
 			case Action.Types.Skill:
