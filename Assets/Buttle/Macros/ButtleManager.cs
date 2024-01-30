@@ -124,11 +124,15 @@ class ButtleManager : MonoBehaviour
 	{
 		// TODO: キャラクターの素早さを加味する
 		foreach(Action action in actions){
-			// TODO: HPがゼロになったエネミーを削除する
 			switch(action.actionType){
 				case Action.Types.Attack:
-					action.targetEnemy.hp -= 100;
-					action.targetEnemy.Damaged();
+				// TODO: 選択したターゲットが生き残ってるかどうかチェック
+					int hp = await action.targetEnemy.Damaged(100);
+
+					if(hp <= 0){
+						await action.targetEnemy.Death();
+						enemies.Remove(action.targetEnemy);
+					}
 					break;
 				default:
 					break;
