@@ -122,7 +122,10 @@ class ButtleManager : MonoBehaviour
 
 	private async UniTask<bool> Calculate(List<Action> actions, CancellationToken cancellationToken)
 	{
-		// TODO: キャラクターの素早さを加味する
+		actions.Sort(delegate(Action x, Action y)
+		{
+				return x.actioner.speed.CompareTo(y.actioner.speed);
+		});
 		foreach(Action action in actions){
 			switch(action.actionType){
 				case Action.Types.Attack:

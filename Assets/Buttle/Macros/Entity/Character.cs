@@ -15,6 +15,7 @@ public class Character : ScriptableObject
     public int mp;
     public int attackPower;
     public int defensePower;
+    public int speed;
 
 	public Sprite selectedImage;
 	public Sprite deselectedImage;
