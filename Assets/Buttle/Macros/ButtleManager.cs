@@ -126,12 +126,15 @@ class ButtleManager : MonoBehaviour
 		foreach(Action action in actions){
 			switch(action.actionType){
 				case Action.Types.Attack:
-				// TODO: 選択したターゲットが生き残ってるかどうかチェック
-					int hp = await action.targetEnemy.Damaged(100);
+				EnemyComponent targetEnemy = action.targetEnemy;
+					if(!enemies.Contains(targetEnemy)){
+						targetEnemy = enemies[0];
+					}
+					int hp = await targetEnemy.Damaged(100);
 
 					if(hp <= 0){
-						await action.targetEnemy.Death();
-						enemies.Remove(action.targetEnemy);
+						await targetEnemy.Death();
+						enemies.Remove(targetEnemy);
 					}
 					break;
 				default:
