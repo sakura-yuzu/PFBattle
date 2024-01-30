@@ -13,7 +13,7 @@ class ButtleManager : MonoBehaviour
 {
 
 	public Enemy enemy;
-	public List<EnemyClass> enemies;
+	public List<EnemyComponent> enemies;
 	public Character[] allies;
 
 	public Transform allyListArea;
@@ -26,7 +26,7 @@ class ButtleManager : MonoBehaviour
 
 	private List<GameObject> allyActionPanelList;
 	private SelectTargetAllyPanel selectTargetAllyPanelComponent;
-	private SelectTargetEnemyPanel selectTargetEnemyPanelComponent;
+	private SelectTargetEnemyPanelComponent selectTargetEnemyPanelComponent;
 
 	private bool ButtleEnd = false;
 
@@ -46,16 +46,17 @@ class ButtleManager : MonoBehaviour
 	{
 
 		for(int i=0;i<4;i++){
-			EnemyClass enemyClass = new EnemyClass(enemy);
-			enemies.Add(enemyClass);
 			var enemyPrefab = await Addressables.LoadAssetAsync<GameObject>(enemy.prefabAddress).Task;
 			Vector3 position = enemyPosition[i];
 			GameObject enemyObject = Instantiate(enemyPrefab);
 			Transform transform = enemyObject.transform;
 			transform.position = position;
+			EnemyComponent enemyComponent = enemyObject.GetComponent<EnemyComponent>();
+			enemyComponent.setEnemyData(enemy);
+			enemies.Add(enemyComponent);
 		}
 
-		selectTargetEnemyPanelComponent = selectTargetEnemyPanel.GetComponent<SelectTargetEnemyPanel>();
+		selectTargetEnemyPanelComponent = selectTargetEnemyPanel.GetComponent<SelectTargetEnemyPanelComponent>();
 		selectTargetEnemyPanelComponent.setEnemies(enemies);
 		selectTargetEnemyPanel.gameObject.SetActive(true);
 
@@ -65,7 +66,7 @@ class ButtleManager : MonoBehaviour
 
 		allyActionPanelList = new List<GameObject>();
 		var allyPrefab = await Addressables.LoadAssetAsync<GameObject>("AllyButton").Task;
-		var actionPanelPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/Action.prefab").Task;
+		var actionPanelPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/AllyActionPanel.prefab").Task;
 
 		foreach (Character character in allies)
 		{
@@ -80,7 +81,7 @@ class ButtleManager : MonoBehaviour
 			characterButton.Prepare(); // TODO: これキモくね？
 
 			GameObject allyActionPanel = Instantiate(actionPanelPrefab);
-			AllyActionPanel allyActionPanelComponent = allyActionPanel.GetComponent<AllyActionPanel>();
+			AllyActionPanelComponent allyActionPanelComponent = allyActionPanel.GetComponent<AllyActionPanelComponent>();
 			allyActionPanelComponent.character = character;
 			allyActionPanelComponent.selectTargetAllyPanel = selectTargetAllyPanel;
 			allyActionPanelComponent.selectTargetAllyPanelComponent = selectTargetAllyPanelComponent;
@@ -111,7 +112,7 @@ class ButtleManager : MonoBehaviour
 
 		foreach(GameObject allyActionPanel in allyActionPanelList){
 			allyActionPanel.GetComponent<Canvas>().enabled = true;
-			Action action = await allyActionPanel.GetComponent<AllyActionPanel>().AwaitAnyButtonClickedAsync(cancellationToken);
+			Action action = await allyActionPanel.GetComponent<AllyActionPanelComponent>().AwaitAnyButtonClickedAsync(cancellationToken);
 			allyActionPanel.GetComponent<Canvas>().enabled = false;
 			actions.Add(action);
 		}
@@ -121,19 +122,15 @@ class ButtleManager : MonoBehaviour
 
 	private async UniTask<bool> Calculate(List<Action> actions, CancellationToken cancellationToken)
 	{
-		Debug.Log("目印");
 		// TODO: キャラクターの素早さを加味する
 		foreach(Action action in actions){
 			// TODO: HPがゼロになったエネミーを削除する
 			switch(action.actionType){
 				case Action.Types.Attack:
-					Debug.Log("ActionType.Attack");
 					action.targetEnemy.hp -= 100;
 					action.targetEnemy.Damaged();
-					Debug.Log(action.targetEnemy.hp);
 					break;
 				default:
-					Debug.Log("Default");
 					break;
 			}
 		}

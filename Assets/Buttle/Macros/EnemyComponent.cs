@@ -1,10 +1,9 @@
 using UnityEngine;
 using Cysharp.Threading.Tasks;
-class EnemyClass : MonoBehaviour
+class EnemyComponent : MonoBehaviour
 {
 	public ScriptableObject enemyData;
-
-	public string name;
+	public string enemyName;
 	public int hp;
 	public int mp;
 	public int attackPower;
@@ -12,8 +11,8 @@ class EnemyClass : MonoBehaviour
 
 	public Animator anim;
 
-	public EnemyClass(Enemy _enemyData){
-		name = _enemyData.name;
+	public void setEnemyData(Enemy _enemyData){
+		enemyName = _enemyData.enemyName;
 		hp = _enemyData.hp;
 		mp = _enemyData.mp;
 		attackPower = _enemyData.attackPower;
@@ -22,8 +21,8 @@ class EnemyClass : MonoBehaviour
 	}
 
 	public async UniTask Damaged(){
-		anim.SetBool("run", true);
+		anim.SetBool("Damaged", true);
 		await UniTask.DelayFrame(25);
-		anim.SetBool("run", false);
+		anim.SetBool("Damaged", false);
 	}
 }

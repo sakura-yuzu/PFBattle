@@ -1502,9 +1502,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8047082159734313641}
   - component: {fileID: 7504760508741170500}
-  - component: {fileID: 7504760508741170501}
+  - component: {fileID: 1580135226245198711}
   m_Layer: 0
-  m_Name: "\u306F\u308A\u3044\u3082\u3080\u3057"
+  m_Name: caterpiller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1565,7 +1565,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7504760508741170501
+--- !u!114 &1580135226245198711
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1574,11 +1574,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7270826553417173011}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 935a305510f26234092893cd10cf1faf, type: 3}
+  m_Script: {fileID: 11500000, guid: fe83f66db8f78cc4db50322cb3aca9d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: a1cad00fa270140409d8585a07893140, type: 2}
-  name: caterpiller
+  enemyName: 
   hp: 0
   mp: 0
   attackPower: 0

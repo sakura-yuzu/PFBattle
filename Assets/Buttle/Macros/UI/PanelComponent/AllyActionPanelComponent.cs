@@ -3,14 +3,14 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
-class AllyActionPanel : ButtonPanel
+class AllyActionPanelComponent : ButtonPanel
 {
 	public Character character;
 	public Transform panel;
 	public Canvas selectTargetAllyPanel;
 	public Canvas selectTargetEnemyPanel;
 	public SelectTargetAllyPanel selectTargetAllyPanelComponent;
-	public SelectTargetEnemyPanel selectTargetEnemyPanelComponent;
+	public SelectTargetEnemyPanelComponent selectTargetEnemyPanelComponent;
 
 	public async UniTask Prepare(){
 		var systemButtonPrefab = await Addressables.LoadAssetAsync<GameObject>("SystemButton");
@@ -41,6 +41,7 @@ class AllyActionPanel : ButtonPanel
 		var pushed = await UniTask.WhenAny(buttons.Select(button => button.OnClickAsync(cancellationToken)));
 		Action.Types type = buttons[pushed].GetComponent<BaseButton>().getType();
 		Action action;
+
 		switch(type){
 			case Action.Types.Attack:
 				Debug.Log("攻撃！");

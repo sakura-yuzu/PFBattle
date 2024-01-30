@@ -23,7 +23,6 @@ abstract class ButtonPanel : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
-			Debug.Log(GetType().Name);
 			m_cancellationTokenSource?.Cancel();
 			m_cancellationTokenSource = null;
 		}
@@ -45,7 +44,7 @@ abstract class ButtonPanel : MonoBehaviour
 		Debug.Log($"index: {index}");
 		Debug.Log($"result1: {result1}");
 
-		return new Action();
+		return result1;
 	}
 
 	public void Cancel()

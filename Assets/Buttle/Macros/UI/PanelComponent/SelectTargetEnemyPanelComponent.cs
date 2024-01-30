@@ -9,18 +9,17 @@ using System.Threading;
 using System;
 using Cysharp.Threading.Tasks;
 using TMPro;
-class SelectTargetEnemyPanel : ButtonPanel
+class SelectTargetEnemyPanelComponent : ButtonPanel
 {
 	public Transform parentPanel;
 
-	private List<EnemyClass> enemies;
+	public List<EnemyComponent> enemies;
 
 	void Awake(){
-		// Debug.Log("SelectTargetEnemyPanel::Awake");
 		Prepare();
 	}
 
-	public void setEnemies(List<EnemyClass> _enemies){
+	public void setEnemies(List<EnemyComponent> _enemies){
 		enemies = _enemies;
 	}
 
@@ -29,12 +28,12 @@ class SelectTargetEnemyPanel : ButtonPanel
 		GameObject instance;
 		Button button;
 		SystemButton systemButton;
-		foreach(EnemyClass enemy in enemies)
+		foreach(EnemyComponent enemy in enemies)
 		{
 			instance = Instantiate(buttonPrefab, parentPanel);
 			button = instance.GetComponent<Button>();
 			systemButton = instance.GetComponent<SystemButton>();
-			systemButton.setText(enemy.name);
+			systemButton.setText(enemy.enemyName);
 			buttons.Add(button);
 		}
 	}
@@ -44,11 +43,6 @@ class SelectTargetEnemyPanel : ButtonPanel
     									.Select(button => button.OnClickAsync(cancellationToken)));
 			// await UniTask.Delay(TimeSpan.FromSeconds(5f));
 			Action act =  new Action();
-			Debug.Log(pushed);
-			// FIXME: enemiesがnull4つになってる
-			foreach(EnemyClass enemy in enemies){
-				Debug.Log(enemy);
-			}
 			act.targetEnemy = enemies[pushed];
 			return act;
     }

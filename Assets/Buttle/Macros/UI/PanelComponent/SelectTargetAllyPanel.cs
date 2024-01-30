@@ -15,7 +15,6 @@ class SelectTargetAllyPanel : ButtonPanel
 	private Character[] allies;
 
 	void Awake(){
-		Debug.Log("SelectTargetAllyPanel::Awake");
 		Prepare();
 	}
 

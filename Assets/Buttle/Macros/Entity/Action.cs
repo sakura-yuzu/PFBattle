@@ -1,10 +1,10 @@
 class Action
 {
 	public Character actioner;
-	public Item item;
+	// public Item item;
 	public Skill skill;
 	public Character targetAlly;
-	public EnemyClass targetEnemy;
+	public EnemyComponent targetEnemy;
 
 	public Types actionType;
 
