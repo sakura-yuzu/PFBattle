@@ -389,7 +389,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 11400000, guid: a1cad00fa270140409d8585a07893140, type: 2}
   enemies: []
-  allies:
+  allies: []
+  selectedCharacters:
   - {fileID: 11400000, guid: 93a301718328ff846b46c4566cb0a8f4, type: 2}
   - {fileID: 11400000, guid: be2488c1d7930ed4b9b82c54d355ff22, type: 2}
   - {fileID: 11400000, guid: 97a36ddcca2ef66419ddae3838715a1d, type: 2}

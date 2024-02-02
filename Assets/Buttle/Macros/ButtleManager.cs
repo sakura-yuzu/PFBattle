@@ -14,7 +14,8 @@ class ButtleManager : MonoBehaviour
 
 	public Enemy enemy;
 	public List<EnemyComponent> enemies;
-	public Character[] allies;
+	public List<AllyComponent> allies;
+	public Character[] selectedCharacters;
 
 	public Transform allyListArea;
 
@@ -44,7 +45,7 @@ class ButtleManager : MonoBehaviour
 
 	private async UniTask Prepare()
 	{
-
+		// TODO: エネミーの数が現在固定
 		for(int i=0;i<4;i++){
 			var enemyPrefab = await Addressables.LoadAssetAsync<GameObject>(enemy.prefabAddress).Task;
 			Vector3 position = enemyPosition[i];
@@ -52,7 +53,7 @@ class ButtleManager : MonoBehaviour
 			Transform transform = enemyObject.transform;
 			transform.position = position;
 			EnemyComponent enemyComponent = enemyObject.GetComponent<EnemyComponent>();
-			enemyComponent.setEnemyData(enemy);
+			enemyComponent.setData(enemy);
 			enemies.Add(enemyComponent);
 		}
 
@@ -65,24 +66,28 @@ class ButtleManager : MonoBehaviour
 		selectTargetAllyPanelComponent.gameObject.SetActive(true);
 
 		allyActionPanelList = new List<GameObject>();
-		var allyPrefab = await Addressables.LoadAssetAsync<GameObject>("AllyButton").Task;
+		var allyButtonPrefab = await Addressables.LoadAssetAsync<GameObject>("AllyButton").Task;
 		var actionPanelPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/AllyActionPanel.prefab").Task;
 
-		foreach (Character character in allies)
-		{
-			GameObject ally = Instantiate(allyPrefab, allyListArea, false);
+		foreach(Character character in selectedCharacters){
+			var characterPrefab = await Addressables.LoadAssetAsync<GameObject>(character.prefabAddress).Task;
+			GameObject ally = Instantiate(characterPrefab);
+			AllyComponent allyComponent = ally.GetComponent<AllyComponent>();
+			allies.Add(allyComponent);
+			// ボタン作成
+			GameObject allyButton = Instantiate(allyButtonPrefab, allyListArea, false);
 			// サイズを指定
-			RectTransform sd = ally.GetComponent<RectTransform>();
+			RectTransform sd = allyButton.GetComponent<RectTransform>();
 			sd.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 220);
 			sd.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 480);
 			// 独自コンポーネント追加
-			CharacterSelectButton characterButton = ally.GetComponent<CharacterSelectButton>();
-			characterButton.character = character;
+			CharacterSelectButton characterButton = allyButton.GetComponent<CharacterSelectButton>();
+			characterButton.character = allyComponent;
 			characterButton.Prepare(); // TODO: これキモくね？
 
 			GameObject allyActionPanel = Instantiate(actionPanelPrefab);
 			AllyActionPanelComponent allyActionPanelComponent = allyActionPanel.GetComponent<AllyActionPanelComponent>();
-			allyActionPanelComponent.character = character;
+			allyActionPanelComponent.character = allyComponent;
 			allyActionPanelComponent.selectTargetAllyPanel = selectTargetAllyPanel;
 			allyActionPanelComponent.selectTargetAllyPanelComponent = selectTargetAllyPanelComponent;
 			allyActionPanelComponent.selectTargetEnemyPanel = selectTargetEnemyPanel;
@@ -98,10 +103,12 @@ class ButtleManager : MonoBehaviour
 		do{
 			// ユーザーの入力を待つ
 			List<Action> actions = await PlayerAction(cancellationToken);
+			// 残っているエネミーの攻撃を計算する
+			List<Action> enemyActions = await EnemyAction();
+			enemyActions.ForEach(act => actions.Add(act));
+			Debug.Log(actions.Count);
 			// 与ダメを計算する
 			bool BattleEnd = await Calculate(actions, cancellationToken);
-			// 残っているエネミーの攻撃を計算する
-			// await EnemyAttack();
 			// ユーザーの版
 		}while(ButtleEnd);
 	}
@@ -120,6 +127,16 @@ class ButtleManager : MonoBehaviour
 		return actions;
 	}
 
+	private async UniTask<List<Action>> EnemyAction()
+	{
+		Debug.Log("EnemyAction");
+		List<Action> actions = new List<Action>();
+		foreach(EnemyComponent enemy in enemies){
+			actions.Add(enemy.Attack(allies));
+		}
+		return actions;
+	}
+
 	private async UniTask<bool> Calculate(List<Action> actions, CancellationToken cancellationToken)
 	{
 		actions.Sort(delegate(Action x, Action y)
@@ -129,15 +146,28 @@ class ButtleManager : MonoBehaviour
 		foreach(Action action in actions){
 			switch(action.actionType){
 				case Action.Types.Attack:
-				EnemyComponent targetEnemy = action.targetEnemy;
-					if(!enemies.Contains(targetEnemy)){
-						targetEnemy = enemies[0];
-					}
-					int hp = await targetEnemy.Damaged(100);
+					if(action.actioner is AllyComponent){
+						EnemyComponent targetEnemy = action.targetEnemy;
+						if(!enemies.Contains(targetEnemy)){
+							targetEnemy = enemies[0];
+						}
+						int hp = await targetEnemy.Damaged(100);
 
-					if(hp <= 0){
-						await targetEnemy.Death();
-						enemies.Remove(targetEnemy);
+						if(hp <= 0){
+							await targetEnemy.Death();
+							enemies.Remove(targetEnemy);
+						}
+					} else {
+						AllyComponent targetAlly = action.targetAlly;
+						if(!allies.Contains(targetAlly)){
+							targetAlly = allies[0];
+						}
+						int hp = await targetAlly.Damaged(100);
+
+						if(hp <= 0){
+							await targetAlly.Death();
+							allies.Remove(targetAlly);
+						}
 					}
 					break;
 				default:

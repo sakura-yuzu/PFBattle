@@ -33,7 +33,7 @@ class SelectTargetEnemyPanelComponent : ButtonPanel
 			instance = Instantiate(buttonPrefab, parentPanel);
 			button = instance.GetComponent<Button>();
 			systemButton = instance.GetComponent<SystemButton>();
-			systemButton.setText(enemy.enemyName);
+			systemButton.setText(enemy.displayName);
 			buttons.Add(button);
 		}
 	}

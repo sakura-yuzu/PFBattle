@@ -1,9 +1,9 @@
 class Action
 {
-	public Character actioner;
+	public CharacterBaseComponent actioner;
 	// public Item item;
 	public Skill skill;
-	public Character targetAlly;
+	public AllyComponent targetAlly;
 	public EnemyComponent targetEnemy;
 
 	public Types actionType;

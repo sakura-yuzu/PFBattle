@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
 class AllyActionPanelComponent : ButtonPanel
 {
-	public Character character;
+	public AllyComponent character;
 	public Transform panel;
 	public Canvas selectTargetAllyPanel;
 	public Canvas selectTargetEnemyPanel;
@@ -13,23 +13,23 @@ class AllyActionPanelComponent : ButtonPanel
 	public SelectTargetEnemyPanelComponent selectTargetEnemyPanelComponent;
 
 	public async UniTask Prepare(){
-		var systemButtonPrefab = await Addressables.LoadAssetAsync<GameObject>("SystemButton");
+		var systemButtonPrefab = await Addressables.LoadAssetAsync<GameObject>("ActionButton");
 
 		GameObject button = Instantiate(systemButtonPrefab, panel, false);
-		BaseButton buttonComponent = button.GetComponent<BaseButton>();
+		ActionButton buttonComponent = button.GetComponent<ActionButton>();
 		buttonComponent.setText("Attack");
 		buttonComponent.setType(Action.Types.Attack);
 		buttons.Add(button.GetComponent<Button>());
 
 		button = Instantiate(systemButtonPrefab, panel, false);
-		buttonComponent = button.GetComponent<BaseButton>();
+		buttonComponent = button.GetComponent<ActionButton>();
 		buttonComponent.setText("Defence");
 		buttonComponent.setType(Action.Types.Defence);
 		buttons.Add(button.GetComponent<Button>());
 
 		foreach(Skill skill in character.skills){
 			button = Instantiate(systemButtonPrefab, panel, false);
-			buttonComponent = button.GetComponent<BaseButton>();
+			buttonComponent = button.GetComponent<ActionButton>();
 			buttonComponent.setText("Skill");
 			buttonComponent.setType(Action.Types.Skill);
 			buttons.Add(button.GetComponent<Button>());
@@ -39,7 +39,7 @@ class AllyActionPanelComponent : ButtonPanel
 	public override async UniTask<Action> AwaitAnyButtonClickedAsync(CancellationToken cancellationToken)
 	{
 		var pushed = await UniTask.WhenAny(buttons.Select(button => button.OnClickAsync(cancellationToken)));
-		Action.Types type = buttons[pushed].GetComponent<BaseButton>().getType();
+		Action.Types type = buttons[pushed].GetComponent<ActionButton>().getType();
 		Action action;
 
 		switch(type){

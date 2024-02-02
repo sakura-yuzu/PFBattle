@@ -1577,12 +1577,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe83f66db8f78cc4db50322cb3aca9d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: a1cad00fa270140409d8585a07893140, type: 2}
-  enemyName: 
+  characterData: {fileID: 11400000, guid: a1cad00fa270140409d8585a07893140, type: 2}
+  displayName: "\u306F\u308A\u3044\u3082\u3080\u3057"
   hp: 0
   mp: 0
   attackPower: 0
   defensePower: 0
+  speed: 0
   anim: {fileID: 7504760508741170500}
 --- !u!1 &7342116513207714732
 GameObject:

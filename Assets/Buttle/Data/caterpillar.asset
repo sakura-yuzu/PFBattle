@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b9a0f68a6992ab4e91f3dbb81396808, type: 3}
   m_Name: caterpillar
   m_EditorClassIdentifier: 
-  id: 0
-  enemyName: caterpiller
-  image: {fileID: 0}
+  displayName: "\u306F\u308A\u3044\u3082\u3080\u3057"
   hp: 120
   mp: 0
   attackPower: 0
   defensePower: 0
+  speed: 0
+  selectedImage: {fileID: 0}
+  deselectedImage: {fileID: 0}
   prefabAddress: Assets/Buttle/Prefab/caterpiller.prefab
+  id: 0
+  image: {fileID: 0}

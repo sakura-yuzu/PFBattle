@@ -135,7 +135,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 758174a838e2d554fa3ad1d950687311, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundManager: {fileID: 0}
   tmp: {fileID: 4838953561801970569}
   selectedImage: {fileID: 21300000, guid: 901f4d3962427674583e405dead482f8, type: 3}
   deselectedImage: {fileID: 21300000, guid: 5a7dc9f287cca014ab611e87a5e6a548, type: 3}
@@ -208,8 +207,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Button
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 85ea40e4148159246aa3a5c62a4d9566, type: 2}
+  m_sharedMaterial: {fileID: -3080457572346287667, guid: 85ea40e4148159246aa3a5c62a4d9566, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -7,18 +7,8 @@ class BaseButton : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointerEnte
 	public BackgroundManager backgroundManager;
 	public TextMeshProUGUI tmp;
 
-	public Action.Types type;
-
 	public void setText(string text){
 		tmp.text = text;
-	}
-
-	public void setType(Action.Types _type){
-		type = _type;
-	}
-
-	public Action.Types getType(){
-		return type;
 	}
 
 	// public ButtonPanel parentPanel;

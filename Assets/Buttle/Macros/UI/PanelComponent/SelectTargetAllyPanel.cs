@@ -12,19 +12,19 @@ class SelectTargetAllyPanel : ButtonPanel
 {
 	public Transform parentPanel;
 
-	private Character[] allies;
+	private List<AllyComponent> allies;
 
 	void Awake(){
 		Prepare();
 	}
 
-	public void setAllies(Character[] _allies){
+	public void setAllies(List<AllyComponent> _allies){
 		allies = _allies;
 	}
 
 	private async UniTask Prepare(){
 		var buttonPrefab = await Addressables.LoadAssetAsync<GameObject>("SystemButton").Task;
-		foreach(Character ally in allies)
+		foreach(AllyComponent ally in allies)
 		{
 			buttons.Add(Instantiate(buttonPrefab, parentPanel).GetComponent<Button>());
 		}

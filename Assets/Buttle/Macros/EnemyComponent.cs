@@ -1,37 +1,23 @@
 using UnityEngine;
 using Cysharp.Threading.Tasks;
-class EnemyComponent : MonoBehaviour
+using System.Collections;
+using System.Collections.Generic;
+using System;
+class EnemyComponent : CharacterBaseComponent, IEnemyAttack
 {
-	public ScriptableObject enemyData;
-	public string enemyName;
-	public int hp;
-	public int mp;
-	public int attackPower;
-	public int defensePower;
-
-	public Animator anim;
-
-	public void setEnemyData(Enemy _enemyData){
-		enemyName = _enemyData.enemyName;
-		hp = _enemyData.hp;
-		mp = _enemyData.mp;
-		attackPower = _enemyData.attackPower;
-		defensePower = _enemyData.defensePower;
-		// anim = gameObject.GetComponent<Animator>();
+	public EnemyComponent(Enemy enemyData) : base(enemyData)
+	{
 	}
 
-	public async UniTask<int> Damaged(int damage){
-		hp -= damage;
-		anim.SetBool("Damaged", true);
-		await UniTask.DelayFrame(25);
-		anim.SetBool("Damaged", false);
-		return hp;
-	}
+	public Action Attack(List<AllyComponent> allies){
+		System.Random random = new System.Random();
+		int rnd = random.Next(allies.Count);
 
-  public async UniTask Death(){
-		anim.SetBool("Death", true);
-		await UniTask.DelayFrame(25);
-		anim.SetBool("Death", false);
-		Destroy(gameObject);
+		Action action = new Action();
+		action.targetAlly = allies[rnd];
+		action.actionType = Action.Types.Attack;
+		action.actioner = this;
+
+		return action;
 	}
 }
