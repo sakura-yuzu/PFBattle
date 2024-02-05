@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Dave
   m_EditorClassIdentifier: 
   displayName: 
-  hp: 0
-  mp: 0
+  hp: 150
+  mp: 150
   attackPower: 0
   defensePower: 0
   speed: 0

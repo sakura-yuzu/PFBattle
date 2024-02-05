@@ -18,6 +18,7 @@ class ButtleManager : MonoBehaviour
 	public Character[] selectedCharacters;
 
 	public Transform allyListArea;
+	public List<CharacterSelectButton> characterSelectButtonList;
 
 	private Vector3[] enemyPosition;
 
@@ -61,6 +62,14 @@ class ButtleManager : MonoBehaviour
 		selectTargetEnemyPanelComponent.setEnemies(enemies);
 		selectTargetEnemyPanel.gameObject.SetActive(true);
 
+		foreach(Character character in selectedCharacters){
+			var characterPrefab = await Addressables.LoadAssetAsync<GameObject>(character.prefabAddress).Task;
+			GameObject ally = Instantiate(characterPrefab);
+			AllyComponent allyComponent = ally.GetComponent<AllyComponent>();
+			allyComponent.setData(character);
+			allies.Add(allyComponent);
+		}
+
 		selectTargetAllyPanelComponent = selectTargetAllyPanel.GetComponent<SelectTargetAllyPanel>();
 		selectTargetAllyPanelComponent.setAllies(allies);
 		selectTargetAllyPanelComponent.gameObject.SetActive(true);
@@ -69,11 +78,7 @@ class ButtleManager : MonoBehaviour
 		var allyButtonPrefab = await Addressables.LoadAssetAsync<GameObject>("AllyButton").Task;
 		var actionPanelPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/AllyActionPanel.prefab").Task;
 
-		foreach(Character character in selectedCharacters){
-			var characterPrefab = await Addressables.LoadAssetAsync<GameObject>(character.prefabAddress).Task;
-			GameObject ally = Instantiate(characterPrefab);
-			AllyComponent allyComponent = ally.GetComponent<AllyComponent>();
-			allies.Add(allyComponent);
+		foreach(AllyComponent allyComponent in allies){
 			// ボタン作成
 			GameObject allyButton = Instantiate(allyButtonPrefab, allyListArea, false);
 			// サイズを指定
@@ -84,6 +89,7 @@ class ButtleManager : MonoBehaviour
 			CharacterSelectButton characterButton = allyButton.GetComponent<CharacterSelectButton>();
 			characterButton.character = allyComponent;
 			characterButton.Prepare(); // TODO: これキモくね？
+			characterSelectButtonList.Add(characterButton);
 
 			GameObject allyActionPanel = Instantiate(actionPanelPrefab);
 			AllyActionPanelComponent allyActionPanelComponent = allyActionPanel.GetComponent<AllyActionPanelComponent>();
@@ -163,6 +169,8 @@ class ButtleManager : MonoBehaviour
 							targetAlly = allies[0];
 						}
 						int hp = await targetAlly.Damaged(100);
+						CharacterSelectButton btn = characterSelectButtonList.Find(x => x.character == targetAlly);
+						btn.updateHp(hp);
 
 						if(hp <= 0){
 							await targetAlly.Death();

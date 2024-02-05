@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bob
   m_EditorClassIdentifier: 
   displayName: 
-  hp: 0
+  hp: 120
   mp: 0
   attackPower: 0
   defensePower: 0

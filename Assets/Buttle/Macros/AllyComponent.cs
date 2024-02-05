@@ -10,4 +10,12 @@ class AllyComponent : CharacterBaseComponent
 	{
 		skills = characterData.skills;
 	}
+
+	public async UniTask<int> Damaged(int damage){
+		hp -= damage;
+		return hp;
+	}
+  public async UniTask Death(){
+		Destroy(gameObject);
+	}
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Alice
   m_EditorClassIdentifier: 
   displayName: 
-  hp: 0
+  hp: 100
   mp: 0
   attackPower: 0
   defensePower: 0
