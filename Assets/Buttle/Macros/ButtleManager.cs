@@ -30,7 +30,7 @@ class ButtleManager : MonoBehaviour
 	private SelectTargetAllyPanel selectTargetAllyPanelComponent;
 	private SelectTargetEnemyPanelComponent selectTargetEnemyPanelComponent;
 
-	private bool ButtleEnd = false;
+	private bool BattleContinue = true;
 
 	async void Awake()
 	{
@@ -115,13 +115,14 @@ class ButtleManager : MonoBehaviour
 			enemyActions.ForEach(act => actions.Add(act));
 			Debug.Log(actions.Count);
 			// 与ダメを計算する
-			bool BattleEnd = await Calculate(actions, cancellationToken);
+			BattleContinue = await Calculate(actions, cancellationToken);
 			// ユーザーの版
-		}while(ButtleEnd);
+		}while(BattleContinue);
 	}
 
 	private async UniTask<List<Action>> PlayerAction(CancellationToken cancellationToken)
 	{
+		Debug.Log("おわおわおわおわ");
 		List<Action> actions = new List<Action>();
 
 		foreach(GameObject allyActionPanel in allyActionPanelList){
@@ -182,7 +183,7 @@ class ButtleManager : MonoBehaviour
 					break;
 			}
 		}
-		return true;
+		return enemies.Count != 0 || allies.Count != 0;
 	}
 
 }
