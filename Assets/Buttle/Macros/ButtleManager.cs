@@ -90,6 +90,7 @@ class ButtleManager : MonoBehaviour
 			characterButton.character = allyComponent;
 			characterButton.Prepare(); // TODO: これキモくね？
 			characterSelectButtonList.Add(characterButton);
+			allyComponent.setCharacterButton(characterButton);
 
 			GameObject allyActionPanel = Instantiate(actionPanelPrefab);
 			AllyActionPanelComponent allyActionPanelComponent = allyActionPanel.GetComponent<AllyActionPanelComponent>();
@@ -169,8 +170,7 @@ class ButtleManager : MonoBehaviour
 							targetAlly = allies[0];
 						}
 						int hp = await targetAlly.Damaged(100);
-						CharacterSelectButton btn = characterSelectButtonList.Find(x => x.character == targetAlly);
-						btn.updateHp(hp);
+						targetAlly.characterButton.updateHp(hp);
 
 						if(hp <= 0){
 							await targetAlly.Death();
