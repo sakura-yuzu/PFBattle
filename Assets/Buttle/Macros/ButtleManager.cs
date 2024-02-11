@@ -113,7 +113,6 @@ class ButtleManager : MonoBehaviour
 			// 残っているエネミーの攻撃を計算する
 			List<Action> enemyActions = await EnemyAction();
 			enemyActions.ForEach(act => actions.Add(act));
-			Debug.Log(actions.Count);
 			// 与ダメを計算する
 			BattleContinue = await Calculate(actions, cancellationToken);
 			// ユーザーの版
@@ -122,7 +121,6 @@ class ButtleManager : MonoBehaviour
 
 	private async UniTask<List<Action>> PlayerAction(CancellationToken cancellationToken)
 	{
-		Debug.Log("おわおわおわおわ");
 		List<Action> actions = new List<Action>();
 
 		foreach(GameObject allyActionPanel in allyActionPanelList){
@@ -137,7 +135,6 @@ class ButtleManager : MonoBehaviour
 
 	private async UniTask<List<Action>> EnemyAction()
 	{
-		Debug.Log("EnemyAction");
 		List<Action> actions = new List<Action>();
 		foreach(EnemyComponent enemy in enemies){
 			actions.Add(enemy.Attack(allies));
@@ -147,10 +144,12 @@ class ButtleManager : MonoBehaviour
 
 	private async UniTask<bool> Calculate(List<Action> actions, CancellationToken cancellationToken)
 	{
+		// 素早い順に行動する
 		actions.Sort(delegate(Action x, Action y)
 		{
 				return x.actioner.speed.CompareTo(y.actioner.speed);
 		});
+
 		foreach(Action action in actions){
 			switch(action.actionType){
 				case Action.Types.Attack:

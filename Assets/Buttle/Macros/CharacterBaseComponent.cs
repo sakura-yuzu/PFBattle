@@ -1,7 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+
 using Cysharp.Threading.Tasks;
+
 
 [SerializeField]
 public class CharacterBaseComponent : MonoBehaviour
@@ -35,14 +39,14 @@ public class CharacterBaseComponent : MonoBehaviour
 	public async UniTask<int> Damaged(int damage){
 		hp -= damage;
 		anim?.SetBool("Damaged", true);
-		await UniTask.DelayFrame(25);
+		await UniTask.Delay(TimeSpan.FromSeconds(1f));
 		anim?.SetBool("Damaged", false);
 		return hp;
 	}
 
   public async UniTask Death(){
 		anim?.SetBool("Death", true);
-		await UniTask.DelayFrame(25);
+		await UniTask.Delay(TimeSpan.FromSeconds(1f));
 		anim?.SetBool("Death", false);
 		Destroy(gameObject);
 	}
