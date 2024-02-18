@@ -7,31 +7,31 @@ class BaseButton : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointerEnte
 	public BackgroundManager backgroundManager;
 	public TextMeshProUGUI tmp;
 
+	public GameObject mountedButton;
+
+	void Awake(){
+		backgroundManager = mountedButton.GetComponent<BackgroundManager>();
+	}
+
 	public void setText(string text){
 		tmp.text = text;
 	}
 
-	// public ButtonPanel parentPanel;
-
-	void Awake(){
-		// GetComponent<Button>().onClick.AddListener(()=>Debug.Log("onClick"));
-	}
-
 	public void OnSelect(BaseEventData e){
-		// backgroundManager.select();
+		backgroundManager.select();
 		// soundManager.Play();
 	}
 
 	public void OnDeselect(BaseEventData e){
-		// backgroundManager.deselect();
+		backgroundManager.deselect();
 	}
 
 	public void OnPointerEnter(PointerEventData e){
-		// backgroundManager.select();
+		backgroundManager.select();
 	}
 
 	public void OnPointerExit(PointerEventData e){
-		// backgroundManager.deselect();
+		backgroundManager.deselect();
 	}
 
 	public void OnCancel(BaseEventData eventData){
