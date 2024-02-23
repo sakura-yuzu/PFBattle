@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 219e945d91596fa489bba10bc803af6a, type: 3}
   m_Name: Alice
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: "\u30A2\u30EA\u30B9"
   hp: 100
   mp: 0
   attackPower: 0

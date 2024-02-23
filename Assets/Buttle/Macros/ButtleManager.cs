@@ -30,6 +30,9 @@ class ButtleManager : MonoBehaviour
 	private SelectTargetAllyPanel selectTargetAllyPanelComponent;
 	private SelectTargetEnemyPanelComponent selectTargetEnemyPanelComponent;
 
+	public GameObject logPanel;
+	private LogPanelComponent logPanelComponent;
+
 	private bool BattleContinue = true;
 
 	async void Awake()
@@ -46,6 +49,7 @@ class ButtleManager : MonoBehaviour
 
 	private async UniTask Prepare()
 	{
+		logPanelComponent = logPanel.GetComponent<LogPanelComponent>();
 		// TODO: エネミーの数が現在固定
 		for(int i=0;i<4;i++){
 			var enemyPrefab = await Addressables.LoadAssetAsync<GameObject>(enemy.prefabAddress).Task;
@@ -108,11 +112,15 @@ class ButtleManager : MonoBehaviour
 	{
 		cancellationToken = this.GetCancellationTokenOnDestroy();
 		do{
+			// ログパネルを非表示にする
+			// allyListArea.gameObject.SetActive(false);
 			// ユーザーの入力を待つ
 			List<Action> actions = await PlayerAction(cancellationToken);
 			// 残っているエネミーの攻撃を計算する
 			List<Action> enemyActions = await EnemyAction();
 			enemyActions.ForEach(act => actions.Add(act));
+			// ログパネルを表示する
+			// allyListArea.gameObject.SetActive(true);
 			// 与ダメを計算する
 			BattleContinue = await Calculate(actions, cancellationToken);
 			// ユーザーの版
@@ -151,16 +159,23 @@ class ButtleManager : MonoBehaviour
 		});
 
 		foreach(Action action in actions){
+			if(action.actioner == null){
+				continue;
+			}
+
 			switch(action.actionType){
 				case Action.Types.Attack:
+					logPanelComponent.addText(action.actioner.displayName + "の攻撃！");
 					if(action.actioner is AllyComponent){
 						EnemyComponent targetEnemy = action.targetEnemy;
 						if(!enemies.Contains(targetEnemy)){
 							targetEnemy = enemies[0];
 						}
 						int hp = await targetEnemy.Damaged(100);
+						logPanelComponent.addText(targetEnemy.displayName + "に" + 100 + "のダメージ！");
 
 						if(hp <= 0){
+							logPanelComponent.addText(targetEnemy.displayName + "を倒した！");
 							await targetEnemy.Death();
 							enemies.Remove(targetEnemy);
 						}
@@ -170,11 +185,14 @@ class ButtleManager : MonoBehaviour
 							targetAlly = allies[0];
 						}
 						int hp = await targetAlly.Damaged(100);
+						logPanelComponent.addText(targetAlly.displayName + "に" + 100 + "のダメージ！");
 						targetAlly.characterButton.updateHp(hp);
 
 						if(hp <= 0){
+							logPanelComponent.addText(targetAlly.displayName + "は倒れた！");
 							await targetAlly.Death();
 							allies.Remove(targetAlly);
+							
 						}
 					}
 					break;

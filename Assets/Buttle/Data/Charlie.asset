@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 219e945d91596fa489bba10bc803af6a, type: 3}
   m_Name: Charlie
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: "\u30C1\u30E3\u30FC\u30EA\u30FC"
   hp: 80
   mp: 0
   attackPower: 0

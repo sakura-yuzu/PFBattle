@@ -17,5 +17,5 @@ public class CharacterBase : ScriptableObject
   public Sprite selectedImage;
   public Sprite deselectedImage;
 
-    public string prefabAddress;
+  public string prefabAddress;
 }
