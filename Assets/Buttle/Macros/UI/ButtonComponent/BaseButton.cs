@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+
 class BaseButton : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointerEnterHandler, IPointerExitHandler, ICancelHandler
 {
 	public BackgroundManager backgroundManager;
@@ -9,32 +10,40 @@ class BaseButton : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointerEnte
 
 	public GameObject mountedButton;
 
-	void Awake(){
+	void Awake()
+	{
 		backgroundManager = mountedButton.GetComponent<BackgroundManager>();
 	}
 
-	public void setText(string text){
+	public void setText(string text)
+	{
 		tmp.text = text;
 	}
 
-	public void OnSelect(BaseEventData e){
+// イベントハンドラもvirtual化できるのおもろ
+	public virtual void OnSelect(BaseEventData e)
+	{
 		backgroundManager.select();
 		// soundManager.Play();
 	}
 
-	public void OnDeselect(BaseEventData e){
+	public void OnDeselect(BaseEventData e)
+	{
 		backgroundManager.deselect();
 	}
 
-	public void OnPointerEnter(PointerEventData e){
+	public void OnPointerEnter(PointerEventData e)
+	{
 		backgroundManager.select();
 	}
 
-	public void OnPointerExit(PointerEventData e){
+	public void OnPointerExit(PointerEventData e)
+	{
 		backgroundManager.deselect();
 	}
 
-	public void OnCancel(BaseEventData eventData){
-	// 	parentPanel?.Cancel();
+	public void OnCancel(BaseEventData eventData)
+	{
+		// 	parentPanel?.Cancel();
 	}
 }

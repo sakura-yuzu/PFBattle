@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backgroundManager: {fileID: 9196392598101099334}
-  tmp: {fileID: 0}
+  tmp: {fileID: 860358121337402047}
   mountedButton: {fileID: 860358122566927931}
   character: {fileID: 0}
   button: {fileID: 860358122566927931}

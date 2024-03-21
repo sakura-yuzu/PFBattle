@@ -12,7 +12,12 @@ class CharacterSelectButton : BaseButton
 	public async void Prepare(){
 		HPBar.maxValue = character.characterData.hp;
 		HPBar.value = character.characterData.hp;
-			// backgroundManager = new BackgroundManager(character.characterData.selectedImage, character.characterData.deselectedImage, button);
+		backgroundManager.setData(
+			character.characterData.selectedImage,
+			character.characterData.deselectedImage,
+			button
+		);
+		setText(character.displayName);
 	}
 
 	public void updateHp(int hp){

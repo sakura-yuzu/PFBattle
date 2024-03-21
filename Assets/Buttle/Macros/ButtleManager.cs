@@ -5,6 +5,7 @@ using System.Threading;
 
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 using Cysharp.Threading.Tasks;
@@ -13,9 +14,9 @@ class ButtleManager : MonoBehaviour
 {
 
 	public Enemy enemy;
-	public List<EnemyComponent> enemies;
-	public List<AllyComponent> allies;
-	public Character[] selectedCharacters;
+	private List<EnemyComponent> enemies = new List<EnemyComponent>();
+	private List<AllyComponent> allies = new List<AllyComponent>();
+	public SelectedAllyList selectedCharacters;
 
 	public Transform allyListArea;
 	public List<CharacterSelectButton> characterSelectButtonList;
@@ -66,7 +67,7 @@ class ButtleManager : MonoBehaviour
 		selectTargetEnemyPanelComponent.setEnemies(enemies);
 		selectTargetEnemyPanel.gameObject.SetActive(true);
 
-		foreach(Character character in selectedCharacters){
+		foreach(Character character in selectedCharacters.selectedCharacterList){
 			var characterPrefab = await Addressables.LoadAssetAsync<GameObject>(character.prefabAddress).Task;
 			GameObject ally = Instantiate(characterPrefab);
 			AllyComponent allyComponent = ally.GetComponent<AllyComponent>();
@@ -125,6 +126,7 @@ class ButtleManager : MonoBehaviour
 			BattleContinue = await Calculate(actions, cancellationToken);
 			// ユーザーの版
 		}while(BattleContinue);
+		SceneManager.LoadScene("ResultScene");
 	}
 
 	private async UniTask<List<Action>> PlayerAction(CancellationToken cancellationToken)
@@ -188,19 +190,18 @@ class ButtleManager : MonoBehaviour
 						logPanelComponent.addText(targetAlly.displayName + "に" + 100 + "のダメージ！");
 						targetAlly.characterButton.updateHp(hp);
 
-						if(hp <= 0){
-							logPanelComponent.addText(targetAlly.displayName + "は倒れた！");
-							await targetAlly.Death();
-							allies.Remove(targetAlly);
-							
-						}
+						// if(hp <= 0){
+						// 	logPanelComponent.addText(targetAlly.displayName + "は倒れた！");
+						// 	await targetAlly.Death();
+						// 	allies.Remove(targetAlly);
+						// }
 					}
 					break;
 				default:
 					break;
 			}
 		}
-		return enemies.Count != 0 || allies.Count != 0;
+		return enemies.Count != 0 && allies.Count != 0;
 	}
 
 }

@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 219e945d91596fa489bba10bc803af6a, type: 3}
   m_Name: Alice
   m_EditorClassIdentifier: 
-  displayName: "\u30A2\u30EA\u30B9"
-  hp: 100
+  displayName: "\u30DE\u30EA\u30FC"
+  hp: 800
   mp: 0
-  attackPower: 0
+  attackPower: 1200
   defensePower: 0
   speed: 0
-  selectedImage: {fileID: 21300000, guid: 901f4d3962427674583e405dead482f8, type: 3}
-  deselectedImage: {fileID: 21300000, guid: 5a7dc9f287cca014ab611e87a5e6a548, type: 3}
+  selectedImage: {fileID: 21300000, guid: 3f52e294460cffb46b616840d9acbfa3, type: 3}
+  deselectedImage: {fileID: 21300000, guid: b1ae9f0882ba3cb48a231538bf8e9efe, type: 3}
   prefabAddress: Assets/Buttle/Prefab/Ally/Alice.prefab
   id: 0
   image: {fileID: 0}

@@ -6,10 +6,12 @@ class BackgroundManager : MonoBehaviour
 	public Sprite deselectedImage;
 	public GameObject targetObject;
 
-	public BackgroundManager(Sprite _selectedImage, Sprite _deselectedImage, GameObject _targetObject){
+	public void setData(Sprite _selectedImage, Sprite _deselectedImage, GameObject _targetObject){
 		this.selectedImage = _selectedImage;
 		this.deselectedImage = _deselectedImage;
 		this.targetObject = _targetObject;
+
+		targetObject.GetComponent<Image>().sprite = deselectedImage;
 	}
 
 	public void select(){
