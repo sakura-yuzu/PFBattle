@@ -197,6 +197,9 @@ class ButtleManager : MonoBehaviour
 						// }
 					}
 					break;
+				case Action.Types.Skill:
+					action.skill.execute();
+					break;
 				default:
 					break;
 			}

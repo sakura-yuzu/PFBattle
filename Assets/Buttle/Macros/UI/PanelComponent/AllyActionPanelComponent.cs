@@ -30,7 +30,7 @@ class AllyActionPanelComponent : ButtonPanel
 		foreach(Skill skill in character.skills){
 			button = Instantiate(systemButtonPrefab, panel, false);
 			buttonComponent = button.GetComponent<ActionButton>();
-			buttonComponent.setText("Skill");
+			buttonComponent.setText(skill.skillName);
 			buttonComponent.setType(Action.Types.Skill);
 			buttons.Add(button.GetComponent<Button>());
 		}
@@ -61,11 +61,11 @@ class AllyActionPanelComponent : ButtonPanel
 				return action;
 			case Action.Types.Skill:
 				Debug.Log("スキル！");
-				// skillPanel.enabled = true;
-				// Action act = await skillPanelComponent.AwaitAnyButtonClickOrCancelAsync(cancellationToken);
-				// skillPanel.enabled = false;
-				// return act;
-				break;
+				action = new Action();
+				action.skill = character.skills[pushed - 2];
+				action.actionType = Action.Types.Skill;
+				action.actioner = character;
+				return action;
 		}
 		return new Action();
 	}

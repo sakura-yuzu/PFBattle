@@ -120,7 +120,9 @@ MonoBehaviour:
   defensePower: 0
   speed: 0
   anim: {fileID: -5044745156286918256}
-  skills: []
+  skills:
+  - {fileID: 11400000, guid: 4cfcf5a25d5d84645854b028fcfde8dd, type: 2}
+  characterButton: {fileID: 0}
 --- !u!95 &-5044745156286918256
 Animator:
   serializedVersion: 5
