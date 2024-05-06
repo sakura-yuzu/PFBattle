@@ -22,18 +22,13 @@ public class CharacterBaseComponent : MonoBehaviour
 
 	public Animator anim;
 
-	public CharacterBaseComponent(CharacterBase _characterData){
-		setData(_characterData);
-	}
-
-	public void setData(CharacterBase _characterData){
-		characterData = _characterData;
-		displayName = _characterData.displayName;
-		hp = _characterData.hp;
-		mp = _characterData.mp;
-		attackPower = _characterData.attackPower;
-		defensePower = _characterData.defensePower;
-		speed = _characterData.speed;
+	void Start(){
+		displayName = characterData.displayName;
+		hp = characterData.hp;
+		mp = characterData.mp;
+		attackPower = characterData.attackPower;
+		defensePower = characterData.defensePower;
+		speed = characterData.speed;
 	}
 
 	public async UniTask<int> Damaged(int damage){

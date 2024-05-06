@@ -36,37 +36,37 @@ class AllyActionPanelComponent : ButtonPanel
 		}
 	}
 
-	public override async UniTask<Action> AwaitAnyButtonClickedAsync(CancellationToken cancellationToken)
-	{
-		var pushed = await UniTask.WhenAny(buttons.Select(button => button.OnClickAsync(cancellationToken)));
-		Action.Types type = buttons[pushed].GetComponent<ActionButton>().getType();
-		Action action;
+	// public override async UniTask<Action> AwaitAnyButtonClickedAsync(CancellationToken cancellationToken)
+	// {
+	// 	var pushed = await UniTask.WhenAny(buttons.Select(button => button.OnClickAsync(cancellationToken)));
+	// 	Action.Types type = buttons[pushed].GetComponent<ActionButton>().getType();
+	// 	Action action;
 
-		switch(type){
-			case Action.Types.Attack:
-				Debug.Log("攻撃！");
-				selectTargetEnemyPanel.enabled = true;
-				action = await selectTargetEnemyPanelComponent.AwaitAnyButtonClickOrCancelAsync(cancellationToken);
-				selectTargetEnemyPanel.enabled = false;
-				action.actionType = Action.Types.Attack;
-				action.actioner = character;
-				return action;
-			case Action.Types.Defence:
-				Debug.Log("防御！");
-				selectTargetAllyPanel.enabled = true;
-				action = await selectTargetAllyPanelComponent.AwaitAnyButtonClickOrCancelAsync(cancellationToken);
-				selectTargetAllyPanel.enabled = false;
-				action.actionType = Action.Types.Defence;
-				action.actioner = character;
-				return action;
-			case Action.Types.Skill:
-				Debug.Log("スキル！");
-				action = new Action();
-				action.skill = character.skills[pushed - 2];
-				action.actionType = Action.Types.Skill;
-				action.actioner = character;
-				return action;
-		}
-		return new Action();
-	}
+	// 	switch(type){
+	// 		case Action.Types.Attack:
+	// 			Debug.Log("攻撃！");
+	// 			selectTargetEnemyPanel.enabled = true;
+	// 			action = await selectTargetEnemyPanelComponent.AwaitAnyButtonClickOrCancelAsync(cancellationToken);
+	// 			selectTargetEnemyPanel.enabled = false;
+	// 			action.actionType = Action.Types.Attack;
+	// 			action.actioner = character;
+	// 			return action;
+	// 		case Action.Types.Defence:
+	// 			Debug.Log("防御！");
+	// 			selectTargetAllyPanel.enabled = true;
+	// 			action = await selectTargetAllyPanelComponent.AwaitAnyButtonClickOrCancelAsync(cancellationToken);
+	// 			selectTargetAllyPanel.enabled = false;
+	// 			action.actionType = Action.Types.Defence;
+	// 			action.actioner = character;
+	// 			return action;
+	// 		case Action.Types.Skill:
+	// 			Debug.Log("スキル！");
+	// 			action = new Action();
+	// 			action.skill = character.skills[pushed - 2];
+	// 			action.actionType = Action.Types.Skill;
+	// 			action.actioner = character;
+	// 			return action;
+	// 	}
+	// 	return new Action();
+	// }
 }

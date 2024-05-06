@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-class CharacterSelectButton : BaseButton
+class CharacterSelectButton : BackgroundButton
 {
 	public AllyComponent character;
 	public GameObject button;

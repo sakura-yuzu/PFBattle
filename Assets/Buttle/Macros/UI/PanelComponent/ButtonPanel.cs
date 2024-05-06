@@ -9,9 +9,11 @@ using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
-abstract class ButtonPanel : MonoBehaviour
+class ButtonPanel : MonoBehaviour
 {
-	public ButtonPanel nextPanel;
+	public GameObject selfPanel;
+	public GameObject prevPanel;
+	public EventSystem eventSystem;
 	public List<Button> buttons;
 	protected CancellationTokenSource m_cancellationTokenSource;
 	// Bボタンとかで（プレイヤーの意思で）キャンセルされるやつ
@@ -21,34 +23,26 @@ abstract class ButtonPanel : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Escape))
+		if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Fire2"))
 		{
-			m_cancellationTokenSource?.Cancel();
-			m_cancellationTokenSource = null;
+			Cancel();
 		}
 	}
 
-	public abstract UniTask<Action> AwaitAnyButtonClickedAsync(CancellationToken cancellationToken);
-	public UniTask waitKeyDown(){
-		return UniTask.WaitUntil(() => Input.GetKeyDown(KeyCode.Escape));
-	}
-	public async UniTask<Action> AwaitAnyButtonClickOrCancelAsync(CancellationToken cancellationToken)
-	{
-		m_cancellationTokenSource = new CancellationTokenSource();
-		playerCancellationToken = m_cancellationTokenSource.Token;
-
-		CancellationTokenSource linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource (gameManagerCancellationToken, playerCancellationToken);
-
-		var (index, result1) = await UniTask.WhenAny(AwaitAnyButtonClickedAsync(linkedTokenSource.Token), waitKeyDown());
-
-		Debug.Log($"index: {index}");
-		Debug.Log($"result1: {result1}");
-
-		return result1;
-	}
 
 	public void Cancel()
 	{
 		Debug.Log("キャンセル");
+		ToggleGroupInherit toggleGroup = prevPanel.GetComponent<ToggleGroupInherit>();
+		// 操作不能にしていたパネルのトグルを復活させる
+		toggleGroup.SetAllTogglesEnable(true);
+		// 選択していたものがOn状態のままでは困るのでOffにする
+		Toggle selected = toggleGroup.ActiveToggles().FirstOrDefault();
+		selected.isOn = false;
+		// eventSystemで前のパネルの選択状態を復元
+		// ここでeventSystemを操作しないと十字キーとかで動かせなくなる
+		eventSystem.SetSelectedGameObject(selected.gameObject);
+		// このパネルを非表示にする
+		selfPanel.SetActive(false);
 	}
 }

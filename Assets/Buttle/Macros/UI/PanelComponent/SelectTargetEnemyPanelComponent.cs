@@ -37,13 +37,13 @@ class SelectTargetEnemyPanelComponent : ButtonPanel
 			buttons.Add(button);
 		}
 	}
-		public override async UniTask<Action> AwaitAnyButtonClickedAsync(CancellationToken cancellationToken)
-    {
-			var pushed = await UniTask.WhenAny(buttons
-    									.Select(button => button.OnClickAsync(cancellationToken)));
-			// await UniTask.Delay(TimeSpan.FromSeconds(5f));
-			Action act =  new Action();
-			act.targetEnemy = enemies[pushed];
-			return act;
-    }
+		// public override async UniTask<Action> AwaitAnyButtonClickedAsync(CancellationToken cancellationToken)
+    // {
+		// 	var pushed = await UniTask.WhenAny(buttons
+    // 									.Select(button => button.OnClickAsync(cancellationToken)));
+		// 	// await UniTask.Delay(TimeSpan.FromSeconds(5f));
+		// 	Action act =  new Action();
+		// 	act.targetEnemy = enemies[pushed];
+		// 	return act;
+    // }
 }

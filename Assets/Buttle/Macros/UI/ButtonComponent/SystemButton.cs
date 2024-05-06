@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-class SystemButton : BaseButton
+class SystemButton : BackgroundButton
 {
 
 }

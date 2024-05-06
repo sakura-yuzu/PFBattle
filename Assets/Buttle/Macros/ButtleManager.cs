@@ -18,21 +18,27 @@ class ButtleManager : MonoBehaviour
 	private List<AllyComponent> allies = new List<AllyComponent>();
 	public SelectedAllyList selectedCharacters;
 
+
+	public GameObject selectActionPanel;
+	public GameObject selectSkillPanel;
+	public GameObject selectItemPanel;
+	public GameObject selectTargetEnemyPanel;
+	public GameObject selectTargetAllyPanel;
 	public Transform allyListArea;
 	public List<CharacterSelectButton> characterSelectButtonList;
 
 	private Vector3[] enemyPosition;
 
 	private CancellationToken cancellationToken;
-	public Canvas selectTargetAllyPanel;
-	public Canvas selectTargetEnemyPanel;
+	// public Canvas selectTargetAllyPanel;
+	// public Canvas selectTargetEnemyPanel;
 
 	private List<GameObject> allyActionPanelList;
 	private SelectTargetAllyPanel selectTargetAllyPanelComponent;
 	private SelectTargetEnemyPanelComponent selectTargetEnemyPanelComponent;
 
-	public GameObject logPanel;
-	private LogPanelComponent logPanelComponent;
+	// public GameObject logPanel;
+	// private LogPanelComponent logPanelComponent;
 
 	private bool BattleContinue = true;
 
@@ -44,13 +50,13 @@ class ButtleManager : MonoBehaviour
 			new Vector3(2,2,2),
 			new Vector3(6,2,2)
 		};
-		await Prepare();
-		Buttle();
+		// await Prepare();
+		// Buttle();
 	}
 
 	private async UniTask Prepare()
 	{
-		logPanelComponent = logPanel.GetComponent<LogPanelComponent>();
+		// logPanelComponent = logPanel.GetComponent<LogPanelComponent>();
 		// TODO: エネミーの数が現在固定
 		for(int i=0;i<4;i++){
 			var enemyPrefab = await Addressables.LoadAssetAsync<GameObject>(enemy.prefabAddress).Task;
@@ -59,53 +65,14 @@ class ButtleManager : MonoBehaviour
 			Transform transform = enemyObject.transform;
 			transform.position = position;
 			EnemyComponent enemyComponent = enemyObject.GetComponent<EnemyComponent>();
-			enemyComponent.setData(enemy);
 			enemies.Add(enemyComponent);
 		}
-
-		selectTargetEnemyPanelComponent = selectTargetEnemyPanel.GetComponent<SelectTargetEnemyPanelComponent>();
-		selectTargetEnemyPanelComponent.setEnemies(enemies);
-		selectTargetEnemyPanel.gameObject.SetActive(true);
 
 		foreach(Character character in selectedCharacters.selectedCharacterList){
 			var characterPrefab = await Addressables.LoadAssetAsync<GameObject>(character.prefabAddress).Task;
 			GameObject ally = Instantiate(characterPrefab);
 			AllyComponent allyComponent = ally.GetComponent<AllyComponent>();
-			allyComponent.setData(character);
 			allies.Add(allyComponent);
-		}
-
-		selectTargetAllyPanelComponent = selectTargetAllyPanel.GetComponent<SelectTargetAllyPanel>();
-		selectTargetAllyPanelComponent.setAllies(allies);
-		selectTargetAllyPanelComponent.gameObject.SetActive(true);
-
-		allyActionPanelList = new List<GameObject>();
-		var allyButtonPrefab = await Addressables.LoadAssetAsync<GameObject>("AllyButton").Task;
-		var actionPanelPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/AllyActionPanel.prefab").Task;
-
-		foreach(AllyComponent allyComponent in allies){
-			// ボタン作成
-			GameObject allyButton = Instantiate(allyButtonPrefab, allyListArea, false);
-			// サイズを指定
-			RectTransform sd = allyButton.GetComponent<RectTransform>();
-			sd.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 220);
-			sd.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 480);
-			// 独自コンポーネント追加
-			CharacterSelectButton characterButton = allyButton.GetComponent<CharacterSelectButton>();
-			characterButton.character = allyComponent;
-			characterButton.Prepare(); // TODO: これキモくね？
-			characterSelectButtonList.Add(characterButton);
-			allyComponent.setCharacterButton(characterButton);
-
-			GameObject allyActionPanel = Instantiate(actionPanelPrefab);
-			AllyActionPanelComponent allyActionPanelComponent = allyActionPanel.GetComponent<AllyActionPanelComponent>();
-			allyActionPanelComponent.character = allyComponent;
-			allyActionPanelComponent.selectTargetAllyPanel = selectTargetAllyPanel;
-			allyActionPanelComponent.selectTargetAllyPanelComponent = selectTargetAllyPanelComponent;
-			allyActionPanelComponent.selectTargetEnemyPanel = selectTargetEnemyPanel;
-			allyActionPanelComponent.selectTargetEnemyPanelComponent = selectTargetEnemyPanelComponent;
-			await allyActionPanelComponent.Prepare();
-			allyActionPanelList.Add(allyActionPanel);
 		}
 	}
 
@@ -133,12 +100,12 @@ class ButtleManager : MonoBehaviour
 	{
 		List<Action> actions = new List<Action>();
 
-		foreach(GameObject allyActionPanel in allyActionPanelList){
-			allyActionPanel.GetComponent<Canvas>().enabled = true;
-			Action action = await allyActionPanel.GetComponent<AllyActionPanelComponent>().AwaitAnyButtonClickedAsync(cancellationToken);
-			allyActionPanel.GetComponent<Canvas>().enabled = false;
-			actions.Add(action);
-		}
+		// foreach(GameObject allyActionPanel in allyActionPanelList){
+		// 	allyActionPanel.GetComponent<Canvas>().enabled = true;
+		// 	Action action = await allyActionPanel.GetComponent<AllyActionPanelComponent>().AwaitAnyButtonClickedAsync(cancellationToken);
+		// 	allyActionPanel.GetComponent<Canvas>().enabled = false;
+		// 	actions.Add(action);
+		// }
 
 		return actions;
 	}
@@ -167,17 +134,17 @@ class ButtleManager : MonoBehaviour
 
 			switch(action.actionType){
 				case Action.Types.Attack:
-					logPanelComponent.addText(action.actioner.displayName + "の攻撃！");
+					// logPanelComponent.addText(action.actioner.displayName + "の攻撃！");
 					if(action.actioner is AllyComponent){
 						EnemyComponent targetEnemy = action.targetEnemy;
 						if(!enemies.Contains(targetEnemy)){
 							targetEnemy = enemies[0];
 						}
 						int hp = await targetEnemy.Damaged(100);
-						logPanelComponent.addText(targetEnemy.displayName + "に" + 100 + "のダメージ！");
+						// logPanelComponent.addText(targetEnemy.displayName + "に" + 100 + "のダメージ！");
 
 						if(hp <= 0){
-							logPanelComponent.addText(targetEnemy.displayName + "を倒した！");
+							// logPanelComponent.addText(targetEnemy.displayName + "を倒した！");
 							await targetEnemy.Death();
 							enemies.Remove(targetEnemy);
 						}
@@ -187,7 +154,7 @@ class ButtleManager : MonoBehaviour
 							targetAlly = allies[0];
 						}
 						int hp = await targetAlly.Damaged(100);
-						logPanelComponent.addText(targetAlly.displayName + "に" + 100 + "のダメージ！");
+						// logPanelComponent.addText(targetAlly.displayName + "に" + 100 + "のダメージ！");
 						targetAlly.characterButton.updateHp(hp);
 
 						// if(hp <= 0){
@@ -205,6 +172,20 @@ class ButtleManager : MonoBehaviour
 			}
 		}
 		return enemies.Count != 0 && allies.Count != 0;
+	}
+
+	public void receiveAction(){
+		Debug.Log("レシーブ");
+		string action = selectActionPanel.GetComponent<ToggleGroupInherit>().getValue();
+		string skill = selectSkillPanel.GetComponent<ToggleGroupInherit>()?.getValue();
+		string item = selectItemPanel.GetComponent<ToggleGroupInherit>()?.getValue();
+		string enemy = selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.getValue();
+		string ally = selectTargetAllyPanel.GetComponent<ToggleGroupInherit>()?.getValue();
+		Debug.Log("action: " + action);
+		Debug.Log("skill: " + skill);
+		Debug.Log("item: " + item);
+		Debug.Log("enemy: " + enemy);
+		Debug.Log("ally: " + ally);
 	}
 
 }

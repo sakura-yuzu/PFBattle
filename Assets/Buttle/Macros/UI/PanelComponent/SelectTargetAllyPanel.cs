@@ -33,16 +33,16 @@ class SelectTargetAllyPanel : ButtonPanel
 		}
 	}
 
-	public async UniTask Update(){
+	// public async UniTask Update(){
 		
-	}
+	// }
 
-	public override async UniTask<Action> AwaitAnyButtonClickedAsync(CancellationToken cancellationToken)
-	{
-		var pushed = await UniTask.WhenAny(buttons
-										.Select(button => button.OnClickAsync(cancellationToken)));
-		Action act = new Action();
-		act.targetAlly = allies[pushed];
-		return act;
-	}
+	// public override async UniTask<Action> AwaitAnyButtonClickedAsync(CancellationToken cancellationToken)
+	// {
+	// 	var pushed = await UniTask.WhenAny(buttons
+	// 									.Select(button => button.OnClickAsync(cancellationToken)));
+	// 	Action act = new Action();
+	// 	act.targetAlly = allies[pushed];
+	// 	return act;
+	// }
 }

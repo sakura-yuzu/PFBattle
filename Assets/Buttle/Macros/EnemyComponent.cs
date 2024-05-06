@@ -5,9 +5,6 @@ using System.Collections.Generic;
 using System;
 class EnemyComponent : CharacterBaseComponent, IEnemyAttack
 {
-	public EnemyComponent(Enemy enemyData) : base(enemyData)
-	{
-	}
 
 	public Action Attack(List<AllyComponent> allies){
 		System.Random random = new System.Random();

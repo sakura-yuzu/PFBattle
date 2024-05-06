@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public delegate void OnClickDelegate(Character character);
-class MemberSelectButton : BaseButton
+class MemberSelectButton : BackgroundButton
 {
 	private Character character;
 	public void setCharacter(Character _character)
