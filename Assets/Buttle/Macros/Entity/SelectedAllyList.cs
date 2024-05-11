@@ -8,5 +8,5 @@ using UnityEngine;
 [SerializeField]
 public class SelectedAllyList : ScriptableObject
 {
-    public List<Character> selectedCharacterList;
+    public List<Creature> selectedCharacterList;
 }

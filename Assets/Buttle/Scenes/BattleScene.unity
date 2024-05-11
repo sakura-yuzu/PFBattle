@@ -206,6 +206,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 749550462}
     m_Modifications:
+    - target: {fileID: 102546733, guid: 199b288d648841f478ada735e593d2d7, type: 3}
+      propertyPath: m_text
+      value: Item
+      objectReference: {fileID: 0}
     - target: {fileID: 5254721775704205687, guid: 199b288d648841f478ada735e593d2d7, type: 3}
       propertyPath: m_Text
       value: "\u30A2\u30A4\u30C6\u30E0"
@@ -435,6 +439,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7378491948654393187, guid: 756b542cff4e07b439103b889af7c6f0, type: 3}
   m_PrefabInstance: {fileID: 1951886043}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &102546733 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 102546733, guid: 199b288d648841f478ada735e593d2d7, type: 3}
+  m_PrefabInstance: {fileID: 5254721775604389720}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &133302567 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7378491948654393187, guid: 756b542cff4e07b439103b889af7c6f0, type: 3}
@@ -722,8 +737,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 11400000, guid: a1cad00fa270140409d8585a07893140, type: 2}
   selectedCharacters: {fileID: 11400000, guid: 165a19f7cdb44bc4aaee8c0f64d307b4, type: 2}
-  allyListArea: {fileID: 0}
-  characterSelectButtonList: []
+  selectActionPanel: {fileID: 749550461}
+  selectSkillPanel: {fileID: 1156978265}
+  selectItemPanel: {fileID: 89210819}
+  selectTargetEnemyPanel: {fileID: 1101588532}
+  selectTargetAllyPanel: {fileID: 704222838}
 --- !u!4 &219731215
 Transform:
   m_ObjectHideFlags: 0
@@ -1292,6 +1310,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 749550462}
     m_Modifications:
+    - target: {fileID: 102546733, guid: 199b288d648841f478ada735e593d2d7, type: 3}
+      propertyPath: m_text
+      value: Escape
+      objectReference: {fileID: 0}
     - target: {fileID: 5254721776044556337, guid: 199b288d648841f478ada735e593d2d7, type: 3}
       propertyPath: m_Name
       value: Toggle (3)
@@ -2705,6 +2727,21 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5753423713051444755, guid: cef14a874fcdd384bb9c2a0af4ba4d72, type: 3}
   m_PrefabInstance: {fileID: 5753423713537148200}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1024279356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024279353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 687fa1504aee3ea4b94c97b37d7f8686, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tmp: {fileID: 0}
+  value: hoge
+  mountedButton: {fileID: 0}
 --- !u!1001 &1053690140
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3131,6 +3168,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 749550462}
     m_Modifications:
+    - target: {fileID: 102546733, guid: 199b288d648841f478ada735e593d2d7, type: 3}
+      propertyPath: m_text
+      value: Skill
+      objectReference: {fileID: 0}
     - target: {fileID: 5254721775704205687, guid: 199b288d648841f478ada735e593d2d7, type: 3}
       propertyPath: m_Text
       value: "\u30B9\u30AD\u30EB"
@@ -4356,6 +4397,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 749550462}
     m_Modifications:
+    - target: {fileID: 102546733, guid: 199b288d648841f478ada735e593d2d7, type: 3}
+      propertyPath: m_text
+      value: Attack
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791858540, guid: 199b288d648841f478ada735e593d2d7, type: 3}
+      propertyPath: tmp
+      value: 
+      objectReference: {fileID: 102546733}
     - target: {fileID: 5254721776044556337, guid: 199b288d648841f478ada735e593d2d7, type: 3}
       propertyPath: m_Name
       value: Toggle
@@ -4460,10 +4509,6 @@ PrefabInstance:
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 1018356030}
-    - target: {fileID: 5254721776044556339, guid: 199b288d648841f478ada735e593d2d7, type: 3}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5254721776044556339, guid: 199b288d648841f478ada735e593d2d7, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgument
       value: 

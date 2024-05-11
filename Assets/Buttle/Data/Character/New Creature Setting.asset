@@ -9,14 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b9a0f68a6992ab4e91f3dbb81396808, type: 3}
-  m_Name: New Enemy
+  m_Script: {fileID: 11500000, guid: e3b0be33997be8646bb1634a4d4b298e, type: 3}
+  m_Name: New Creature Setting
   m_EditorClassIdentifier: 
-  id: 0
-  enemyName: Enemy
-  image: {fileID: 0}
-  hp: 200
+  displayName: 
+  hp: 0
   mp: 0
   attackPower: 0
   defensePower: 0
-  prefabAddress: Assets/Buttle/Prefab/Bird.prefab
+  speed: 0
+  prefabAddress: 
+  description: 
+  anim: {fileID: 0}

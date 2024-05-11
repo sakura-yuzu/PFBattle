@@ -12,8 +12,8 @@ using Cysharp.Threading.Tasks;
 class SettingSceneController : MonoBehaviour
 {
 	public Transform characterListArea;
-	public CharacterDatabase characterDatabase;
-	private CharacterManager characterManager;
+	// public CharacterDatabase characterDatabase;
+	// private CharacterManager characterManager;
 	public Button gameStartButton;
 	public List<MemberSelectButton> memberSelectButtons;
 	public ToggleGroup memberSelectToggleGroup;
@@ -24,14 +24,14 @@ class SettingSceneController : MonoBehaviour
 	public SelectedAllyList selectedAllyListScriptableObject;
 
 	public GameObject[] selectedMemberImageList;
-	public List<Character> selectedMemberList;
+	public List<Creature> selectedMemberList;
 
 	void Awake()
 	{
 		Prepare();
 		characterAssignButton.onClick.AddListener(() =>
 		{
-			Character character = characterDetailPanelComponent.getCharacter();
+			Creature character = characterDetailPanelComponent.getCharacter();
 			selectedMemberImageList[selectedMemberList.Count].GetComponent<MemberSelectButton>().setCharacter(character);
 			selectedMemberList.Add(character);
 		});
@@ -41,8 +41,8 @@ class SettingSceneController : MonoBehaviour
 	{
 		characterDetailPanelComponent = characterDetailPanel.GetComponent<CharacterDetailPanelComponent>();
 
-		characterManager = new CharacterManager(characterDatabase);
-		await PrepareCharacterList(characterManager, characterListArea);
+		// characterManager = new CharacterManager(characterDatabase);
+		// await PrepareCharacterList(characterManager, characterListArea);
 
 		gameStartButton.onClick.AddListener(() =>
 		{
@@ -57,25 +57,25 @@ class SettingSceneController : MonoBehaviour
 		}
 	}
 
-	public void onClickMemberSelectButton(Character character)
+	public void onClickMemberSelectButton(Creature character)
 	{
 		Debug.Log(character.displayName);
 		characterDetailPanelComponent.setCharacter(character);
 	}
 
-	private async UniTask PrepareCharacterList(CharacterManager manager, Transform area)
-	{
-		var columnPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/UI/SettingSceneAllyButton.prefab").Task;
+	// private async UniTask PrepareCharacterList(CharacterManager manager, Transform area)
+	// {
+	// 	var columnPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/UI/SettingSceneAllyButton.prefab").Task;
 
-		List<Character> characterList = manager.getAll();
+	// 	List<Character> characterList = manager.getAll();
 
-		foreach (Character chara in characterList)
-		{
-			GameObject column = Instantiate(columnPrefab, area, false);
-			column.GetComponent<Toggle>().group = memberSelectToggleGroup;
-			MemberSelectButton memberSelectButton = column.GetComponent<MemberSelectButton>();
-			memberSelectButton.setCharacter(chara);
-			memberSelectButtons.Add(memberSelectButton);
-		}
-	}
+	// 	foreach (Character chara in characterList)
+	// 	{
+	// 		GameObject column = Instantiate(columnPrefab, area, false);
+	// 		column.GetComponent<Toggle>().group = memberSelectToggleGroup;
+	// 		MemberSelectButton memberSelectButton = column.GetComponent<MemberSelectButton>();
+	// 		memberSelectButton.setCharacter(chara);
+	// 		memberSelectButtons.Add(memberSelectButton);
+	// 	}
+	// }
 }

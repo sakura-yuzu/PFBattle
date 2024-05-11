@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-// using UnityEngine.Sprite;
-// using WeaponTypeEnum;
 
+[CreateAssetMenu]
 [SerializeField]
-public class CharacterBase : ScriptableObject
+public class CreatureSetting : ScriptableObject
 {
   public string displayName;
   public int hp;
@@ -13,11 +12,8 @@ public class CharacterBase : ScriptableObject
   public int attackPower;
   public int defensePower;
   public int speed;
-  // FIXME: なんか嫌
-  public Sprite selectedImage;
-  public Sprite deselectedImage;
-
   public string prefabAddress;
-
   public string description;
+  public List<ISkill> skills;
+  public Animator anim; // いけるか？
 }

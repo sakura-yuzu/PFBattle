@@ -3,5 +3,5 @@ using System.Collections.Generic;
 
 interface IEnemyAttack
 {
-	public Action Attack(List<AllyComponent> allies);
+	public void Attack(Creature target);
 }
