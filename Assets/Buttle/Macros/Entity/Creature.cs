@@ -20,14 +20,19 @@ public class Creature : MonoBehaviour
   public Animator anim;
 
 	void Start(){
-		displayName = setting.displayName;
-		hp = setting.hp;
-		mp = setting.mp;
-		attackPower = setting.attackPower;
-		defensePower = setting.defensePower;
-		speed = setting.speed;
-    prefabAddress = setting.prefabAddress;
-    anim = setting.anim;
+		// displayName = setting.displayName;
+		// hp = setting.hp;
+		// mp = setting.mp;
+		// attackPower = setting.attackPower;
+		// defensePower = setting.defensePower;
+		// speed = setting.speed;
+    // prefabAddress = setting.prefabAddress;
+    // anim = setting.anim;
+	}
+
+	public async UniTaskVoid Action()
+	{
+		
 	}
 
 	public async UniTask<int> Damaged(int damage){

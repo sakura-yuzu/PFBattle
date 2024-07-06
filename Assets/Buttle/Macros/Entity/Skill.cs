@@ -6,5 +6,5 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 public class Skill
 {
-  SkillSetting setting;
+  public SkillSetting setting;
 }

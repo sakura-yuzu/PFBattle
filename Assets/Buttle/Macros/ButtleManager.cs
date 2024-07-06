@@ -17,16 +17,19 @@ class ButtleManager : MonoBehaviour
 	private List<Creature> enemies = new List<Creature>();
 	private List<Creature> allies = new List<Creature>();
 	public SelectedAllyList selectedCharacters;
+	public Creature ally;
 
-	public GameObject selectActionPanel;
-	public GameObject selectSkillPanel;
-	public GameObject selectItemPanel;
-	public GameObject selectTargetEnemyPanel;
-	public GameObject selectTargetAllyPanel;
+	public SelectActionPanel selectActionPanel;
+	// public GameObject selectSkillPanel;
+	// public GameObject selectItemPanel;
+	// public GameObject selectTargetEnemyPanel;
+	// public GameObject selectTargetAllyPanel;
+	public GameObject characterStatusPanel;
 
 	private Vector3[] enemyPosition;
 
 	private bool BattleContinue = true;
+	private CancellationToken cancellationToken;
 
 	async void Awake()
 	{
@@ -37,14 +40,15 @@ class ButtleManager : MonoBehaviour
 			new Vector3(6,2,2)
 		};
 		// await Prepare();
-		// Buttle();
+		Buttle();
 	}
 
 	private async UniTask Prepare()
 	{
 		// logPanelComponent = logPanel.GetComponent<LogPanelComponent>();
 		// TODO: エネミーの数が現在固定
-		for(int i=0;i<4;i++){
+		for (int i = 0; i < 4; i++)
+		{
 			var enemyPrefab = await Addressables.LoadAssetAsync<GameObject>(enemy.prefabAddress).Task;
 			Vector3 position = enemyPosition[i];
 			GameObject enemyObject = Instantiate(enemyPrefab);
@@ -54,7 +58,8 @@ class ButtleManager : MonoBehaviour
 			enemies.Add(enemyComponent);
 		}
 
-		foreach(Character character in selectedCharacters.selectedCharacterList){
+		foreach (Character character in selectedCharacters.selectedCharacterList)
+		{
 			var characterPrefab = await Addressables.LoadAssetAsync<GameObject>(character.prefabAddress).Task;
 			GameObject ally = Instantiate(characterPrefab);
 			Creature allyComponent = ally.GetComponent<Creature>();
@@ -64,24 +69,25 @@ class ButtleManager : MonoBehaviour
 
 	private async UniTaskVoid Buttle()
 	{
-		do{
-
-		}while(BattleContinue);
+		cancellationToken = this.GetCancellationTokenOnDestroy();
+		do
+		{
+			Creature actioner = ally;
+			Action action = await selectActionPanel.selectAction(cancellationToken);
+			Debug.Log("目印");
+			// await actioner.execute(action);
+			// BattleContinue = false;
+		} while (BattleContinue);
 		SceneManager.LoadScene("ResultScene");
 	}
 
-	public void receiveAction(){
-		Debug.Log("レシーブ");
-		string action = selectActionPanel.GetComponent<ToggleGroupInherit>().getValue();
-		string skill = selectSkillPanel.GetComponent<ToggleGroupInherit>()?.getValue();
-		string item = selectItemPanel.GetComponent<ToggleGroupInherit>()?.getValue();
-		string enemy = selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.getValue();
-		string ally = selectTargetAllyPanel.GetComponent<ToggleGroupInherit>()?.getValue();
-		Debug.Log("action: " + action);
-		Debug.Log("skill: " + skill);
-		Debug.Log("item: " + item);
-		Debug.Log("enemy: " + enemy);
-		Debug.Log("ally: " + ally);
-	}
+	// public void receiveAction(){
+	// 	Action action = selectActionPanel.getAction();
+	// }
 
+
+	public void Kill(Creature creature)
+	{
+
+	}
 }
