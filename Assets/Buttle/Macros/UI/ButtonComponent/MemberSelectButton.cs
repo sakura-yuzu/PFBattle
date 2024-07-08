@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public delegate void OnClickDelegate(Creature character);
+public delegate void OnClickDelegate(CreatureSetting character);
 class MemberSelectButton : BackgroundButton
 {
-	private Creature character;
-	public void setCharacter(Creature _character)
+	private CreatureSetting character;
+	public void setCharacter(CreatureSetting _character)
 	{
 		character = _character;
 		tmp.text = character.displayName;

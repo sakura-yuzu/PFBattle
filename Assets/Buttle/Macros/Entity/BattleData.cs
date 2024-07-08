@@ -4,9 +4,10 @@ using UnityEngine;
 // using UnityEngine.Sprite;
 // using WeaponTypeEnum;
 
+// バトル設定データ
 [CreateAssetMenu]
 [SerializeField]
-public class SelectedAllyList : ScriptableObject
+public class BattleData : ScriptableObject
 {
-    public List<Creature> selectedCharacterList;
+    public List<CreatureSetting> selectedCharacterList;
 }

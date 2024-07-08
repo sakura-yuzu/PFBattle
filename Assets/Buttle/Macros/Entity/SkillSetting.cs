@@ -15,6 +15,7 @@ public class SkillSetting : ScriptableObject
     public bool acquired;                               // 習得済み
     public int weaponType;                              // このスキルを利用できる武器　あとでenum書く
     public int attributeType;                           // 属性
+    public string animationName;                        // 実行時に再生するアニメーション
     public SkillType skillType;
     public enum WeaponEnum
     {

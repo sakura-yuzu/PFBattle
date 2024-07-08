@@ -13,13 +13,13 @@ class SelectTargetEnemyPanelComponent : ButtonPanel
 {
 	public Transform parentPanel;
 
-	public List<Enemy> enemies;
+	public List<CreatureSetting> enemies;
 
 	void Awake(){
 		Prepare();
 	}
 
-	public void setEnemies(List<Enemy> _enemies){
+	public void setEnemies(List<CreatureSetting> _enemies){
 		enemies = _enemies;
 	}
 
@@ -28,7 +28,7 @@ class SelectTargetEnemyPanelComponent : ButtonPanel
 		GameObject instance;
 		Button button;
 		SystemButton systemButton;
-		foreach(Creature enemy in enemies)
+		foreach(CreatureSetting enemy in enemies)
 		{
 			instance = Instantiate(buttonPrefab, parentPanel);
 			button = instance.GetComponent<Button>();

@@ -13,7 +13,7 @@ class SelectActionPanel : MonoBehaviour
 
 	public ToggleGroupInherit[] panels;
 
-	public ButtleManager buttleManager;
+	public BattleManager battleManager;
 
 	public async UniTask<Action> selectAction(CancellationToken cancellationToken)
 	{

@@ -2,15 +2,15 @@ using UnityEngine;
 using TMPro;
 class CharacterDetailPanelComponent : MonoBehaviour
 {
-	private Creature character;
+	private CreatureSetting character;
 
 	public TextMeshProUGUI characterName;
 
-	public void setCharacter(Creature _character){
+	public void setCharacter(CreatureSetting _character){
 		character = _character;
 		characterName.text = character.displayName;
 	}
-	public Creature getCharacter(){
+	public CreatureSetting getCharacter(){
 		return character;
 	}
 }

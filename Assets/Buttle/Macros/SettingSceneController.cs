@@ -21,17 +21,17 @@ class SettingSceneController : MonoBehaviour
 	public CharacterDetailPanelComponent characterDetailPanelComponent;
 	public Button characterAssignButton;
 
-	public SelectedAllyList selectedAllyListScriptableObject;
+	public BattleData battleData;
 
 	public GameObject[] selectedMemberImageList;
-	public List<Creature> selectedMemberList;
+	public List<CreatureSetting> selectedMemberList;
 
 	void Awake()
 	{
 		Prepare();
 		characterAssignButton.onClick.AddListener(() =>
 		{
-			Creature character = characterDetailPanelComponent.getCharacter();
+			CreatureSetting character = characterDetailPanelComponent.getCharacter();
 			selectedMemberImageList[selectedMemberList.Count].GetComponent<MemberSelectButton>().setCharacter(character);
 			selectedMemberList.Add(character);
 		});
@@ -46,8 +46,7 @@ class SettingSceneController : MonoBehaviour
 
 		gameStartButton.onClick.AddListener(() =>
 		{
-			// 命名が最悪すぎる
-			selectedAllyListScriptableObject.selectedCharacterList = selectedMemberList;
+			battleData.selectedCharacterList = selectedMemberList;
 			SceneManager.LoadScene("BattleScene");
 		});
 
@@ -57,7 +56,7 @@ class SettingSceneController : MonoBehaviour
 		}
 	}
 
-	public void onClickMemberSelectButton(Creature character)
+	public void onClickMemberSelectButton(CreatureSetting character)
 	{
 		Debug.Log(character.displayName);
 		characterDetailPanelComponent.setCharacter(character);
@@ -65,7 +64,7 @@ class SettingSceneController : MonoBehaviour
 
 	// private async UniTask PrepareCharacterList(CharacterManager manager, Transform area)
 	// {
-	// 	var columnPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/UI/SettingSceneAllyButton.prefab").Task;
+	// 	var columnPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Battle/Prefab/UI/SettingSceneAllyButton.prefab").Task;
 
 	// 	List<Character> characterList = manager.getAll();
 

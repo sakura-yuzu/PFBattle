@@ -4,6 +4,7 @@ class Action
 	private string item;
 	private string[] enemy;
 	private string[] character;
+  public ActionType actionType;
 
 	public Action(string skill, string item, string[] enemy, string[] character)
 	{
@@ -12,4 +13,12 @@ class Action
 		this.enemy = enemy;
 		this.character = character;
 	}
+
+    public enum ActionType
+    {
+        Attack,
+				Defense,
+				Skill,
+				Item
+    }
 }

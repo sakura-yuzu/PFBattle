@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3b0be33997be8646bb1634a4d4b298e, type: 3}
-  m_Name: New Creature Setting
+  m_Name: Lizrie
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: "\u30EA\u30BA"
   hp: 0
   mp: 0
   attackPower: 0
@@ -20,4 +20,3 @@ MonoBehaviour:
   speed: 0
   prefabAddress: 
   description: 
-  anim: {fileID: 0}

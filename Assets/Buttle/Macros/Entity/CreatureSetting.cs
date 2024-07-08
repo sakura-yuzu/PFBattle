@@ -15,5 +15,4 @@ public class CreatureSetting : ScriptableObject
   public string prefabAddress;
   public string description;
   public List<ISkill> skills;
-  public Animator anim; // いけるか？
 }
