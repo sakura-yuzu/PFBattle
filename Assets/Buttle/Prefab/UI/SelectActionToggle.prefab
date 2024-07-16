@@ -425,5 +425,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tmp: {fileID: 0}
-  value: Action
+  value: Fire
   mountedButton: {fileID: 5254721776044556337}

@@ -21,7 +21,7 @@ class SelectActionPanel : MonoBehaviour
 		// await selectActionPanel.GetComponent<ToggleGroupInherit>().selectAsync(cancellationToken);
 		await UniTask.WhenAny(panels
 			.Select(panel => panel.selectAsync(cancellationToken)));
-		// string action = selectActionPanel.GetComponent<ToggleGroupInherit>().getValue();
+		string actionType = selectActionPanel.GetComponent<ToggleGroupInherit>().getValue();
 		string skill = selectSkillPanel.GetComponent<ToggleGroupInherit>()?.getValue();
 		string item = selectItemPanel.GetComponent<ToggleGroupInherit>()?.getValue();
 		// string enemy = selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.getValue();
@@ -32,13 +32,14 @@ class SelectActionPanel : MonoBehaviour
 		// string[] enemies = new string[] {enemy};
 		string ally = selectTargetAllyPanel.GetComponent<ToggleGroupInherit>()?.getValue();
 		string[] allies = new string[] {ally};
-		// Debug.Log("action: " + action);
+		Debug.Log("action: " + actionType);
 		Debug.Log("skill: " + skill);
 		Debug.Log("item: " + item);
 		// Debug.Log("enemy: " + enemy);
 		Debug.Log("ally: " + ally);
 
 		return new Action(
+			actionType,
 			skill,
 			item,
 			enemies,

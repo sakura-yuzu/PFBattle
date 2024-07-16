@@ -8,6 +8,7 @@ using Cysharp.Threading.Tasks;
 public class Creature : MonoBehaviour
 {
   public CreatureSetting setting;
+  public List<SkillSetting> skills;
   protected string displayName;
   protected int hp;
   protected int mp;

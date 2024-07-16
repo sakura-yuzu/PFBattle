@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Fire
   m_EditorClassIdentifier: 
   id: 0
-  skillName: 
+  skillName: Fire
   description: 
   requiredPoint: 0
   target: 0
   acquired: 0
   weaponType: 0
   attributeType: 0
+  animationName: 
   skillType: 0

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Reflection;
+using System.Linq;
 
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -14,10 +15,13 @@ using Cysharp.Threading.Tasks;
 class BattleManager : MonoBehaviour
 {
 	private List<Creature> enemies = new List<Creature>();
-	private List<Creature> allies = new List<Creature>();
+	private List<Character> allies = new List<Character>();
 	public BattleData battleData;
 	public SelectActionPanel selectActionPanel;
-
+	public GameObject selectSkillPanel;
+	public GameObject selectItemPanel;
+	public GameObject selectTargetEnemyPanel;
+	public GameObject selectTargetAllyPanel;
 	public GameObject characterStatusPanel;
 
 	// private Vector3[] enemyPosition;
@@ -33,7 +37,7 @@ class BattleManager : MonoBehaviour
 		// 	new Vector3(2,2,2),
 		// 	new Vector3(6,2,2)
 		// };
-		// await Prepare();
+		await Prepare();
 		Battle();
 	}
 
@@ -52,13 +56,13 @@ class BattleManager : MonoBehaviour
 		// 	enemies.Add(enemyComponent);
 		// }
 
-		// foreach (CreatureSetting character in battleData.selectedCharacterList)
-		// {
-		// 	var characterPrefab = await Addressables.LoadAssetAsync<GameObject>(character.prefabAddress).Task;
-		// 	GameObject ally = Instantiate(characterPrefab);
-		// 	Creature allyComponent = ally.GetComponent<Creature>();
-		// 	allies.Add(allyComponent);
-		// }
+		foreach (CreatureSetting character in battleData.selectedCharacterList)
+		{
+			var characterPrefab = await Addressables.LoadAssetAsync<GameObject>(character.prefabAddress).Task;
+			GameObject ally = Instantiate(characterPrefab);
+			Character allyComponent = ally.GetComponent<Character>();
+			allies.Add(allyComponent);
+		}
 	}
 
 	private async UniTaskVoid Battle()
@@ -66,31 +70,13 @@ class BattleManager : MonoBehaviour
 		cancellationToken = this.GetCancellationTokenOnDestroy();
 		do
 		{
-			// Creature actioner = allies[0]; // TODO
+			Character actioner = allies[0]; // TODO
+			// IEnumerable<string> skillNameList = actioner.skills.Select(x => x.skillName);
+			// selectSkillPanel.GetComponent<ToggleGroupInherit>().regenerateButtons(skillNameList);
 			Action action = await selectActionPanel.selectAction(cancellationToken);
-			Debug.Log("目印");
-			// string className = "Liz";
-			// Type type = Type.GetType(className);
-
-			// // インスタンス作ったり
-			// // Character character = (Character)Activator.CreateInstance(type);
-
-			// // メソッド呼んだり
-			// MethodInfo method = type.GetMethod("Fire");
-			// method.Invoke(liz);
-			// // await actioner.execute(action);
-			// // BattleContinue = false;
+			// Debug.Log(actioner);
+			actioner.execute(action);
 		} while (BattleContinue);
 		SceneManager.LoadScene("ResultScene");
-	}
-
-	// public void receiveAction(){
-	// 	Action action = selectActionPanel.getAction();
-	// }
-
-
-	public void Kill(Creature creature)
-	{
-
 	}
 }

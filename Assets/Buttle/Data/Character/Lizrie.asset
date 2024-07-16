@@ -18,5 +18,5 @@ MonoBehaviour:
   attackPower: 0
   defensePower: 0
   speed: 0
-  prefabAddress: 
+  prefabAddress: Assets/Buttle/Prefab/Ally/Liz.prefab
   description: 

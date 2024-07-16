@@ -1,13 +1,16 @@
+using System;
+
 class Action
 {
-	private string skill;
-	private string item;
-	private string[] enemy;
-	private string[] character;
+	public string skill;
+	public string item;
+	public string[] enemy;
+	public string[] character;
   public ActionType actionType;
 
-	public Action(string skill, string item, string[] enemy, string[] character)
+	public Action(string actionTypeStr, string skill, string item, string[] enemy, string[] character)
 	{
+		actionType = (ActionType)Enum.Parse(typeof(ActionType), actionTypeStr);
 		this.skill = skill;
 		this.item = item;
 		this.enemy = enemy;

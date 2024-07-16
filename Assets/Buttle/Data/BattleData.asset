@@ -13,7 +13,4 @@ MonoBehaviour:
   m_Name: BattleData
   m_EditorClassIdentifier: 
   selectedCharacterList:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 5264ff40a5929fd41b5dea8de12ef122, type: 2}
