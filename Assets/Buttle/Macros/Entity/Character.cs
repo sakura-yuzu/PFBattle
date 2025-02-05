@@ -16,6 +16,11 @@ class Character : Creature
 
 	public async UniTaskVoid execute(Action action)
 	{
+		if (anim == null || anim.Equals(null))
+		{
+			return;
+		}
+			Debug.Log(anim);
 		switch (action.actionType)
 		{
 			case Action.ActionType.Attack:
@@ -40,13 +45,5 @@ class Character : Creature
 				anim?.SetBool("Item", false);
 				break;
 		}
-	}
-
-	public async UniTask<int> Damaged(int damage){
-		hp -= damage;
-		return hp;
-	}
-  public async UniTask Death(){
-		Destroy(gameObject);
 	}
 }

@@ -27,16 +27,16 @@ class SelectActionPanel : MonoBehaviour
 		// string enemy = selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.getValue();
 		string[] enemies = selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.getValues();
 		foreach(string enemy in enemies){
-			Debug.Log("test: "+enemy);
+			// Debug.Log("test: "+enemy);
 		}
 		// string[] enemies = new string[] {enemy};
 		string ally = selectTargetAllyPanel.GetComponent<ToggleGroupInherit>()?.getValue();
 		string[] allies = new string[] {ally};
-		Debug.Log("action: " + actionType);
-		Debug.Log("skill: " + skill);
-		Debug.Log("item: " + item);
-		// Debug.Log("enemy: " + enemy);
-		Debug.Log("ally: " + ally);
+		// Debug.Log("action: " + actionType);
+		// Debug.Log("skill: " + skill);
+		// Debug.Log("item: " + item);
+		// // Debug.Log("enemy: " + enemy);
+		// Debug.Log("ally: " + ally);
 
 		return new Action(
 			actionType,

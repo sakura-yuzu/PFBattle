@@ -14,5 +14,5 @@ public class CreatureSetting : ScriptableObject
   public int speed;
   public string prefabAddress;
   public string description;
-  // public List<Skill> skills;
+  public List<Skill> skills;
 }

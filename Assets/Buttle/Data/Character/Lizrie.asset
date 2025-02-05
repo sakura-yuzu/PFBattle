@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Lizrie
   m_EditorClassIdentifier: 
   displayName: "\u30EA\u30BA"
-  hp: 0
-  mp: 0
-  attackPower: 0
-  defensePower: 0
-  speed: 0
+  hp: 100
+  mp: 100
+  attackPower: 100
+  defensePower: 100
+  speed: 100
   prefabAddress: Assets/Buttle/Prefab/Ally/Liz.prefab
   description: 
+  skills: []

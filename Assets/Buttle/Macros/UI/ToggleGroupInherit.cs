@@ -31,11 +31,8 @@ class ToggleGroupInherit : ToggleGroup
 	public string[] getValues()
 	{
 		IEnumerable<Toggle> ggles = this.ActiveToggles();
-		// Debug.Log(toggles.Count());
 		IEnumerable<Toggle> activeToggles = ggles.Where(toggle => toggle.isOn); // FIXME: ここが取れない
-		// Debug.Log(activeToggles.Count());
 		IEnumerable<string> onToggles = activeToggles.Select(toggle => toggle.GetComponent<BaseButton>().value);
-		// Debug.Log(onToggles.Count());
 		return onToggles.ToArray();
 	}
 

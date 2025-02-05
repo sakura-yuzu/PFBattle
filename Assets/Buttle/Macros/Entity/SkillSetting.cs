@@ -38,8 +38,4 @@ public class SkillSetting : ScriptableObject
         Enchant,                                         // 回復とかバフとか
         Attack                                           // 攻撃とかデバフとか
     }
-
-    public void execute(){
-        Debug.Log("execute");
-    }
 }

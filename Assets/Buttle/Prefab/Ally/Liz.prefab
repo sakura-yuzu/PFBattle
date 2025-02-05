@@ -110,7 +110,7 @@ Animator:
   m_GameObject: {fileID: 3791439918084513125}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c5018439abc827f4cbfb5bb053a266cf, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4b1ec44f60526094d8259a73d543724f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -136,4 +136,5 @@ MonoBehaviour:
   setting: {fileID: 11400000, guid: 5264ff40a5929fd41b5dea8de12ef122, type: 2}
   skills:
   - {fileID: 11400000, guid: 09399834fe55ed04fb95b91c8a930beb, type: 2}
+  speed: 0
   anim: {fileID: 7764910808894730553}

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedCharacterList:
   - {fileID: 11400000, guid: 5264ff40a5929fd41b5dea8de12ef122, type: 2}
+  stage: {fileID: 11400000, guid: b0bd96086c9e4614c887d1bf3b7d7b4f, type: 2}

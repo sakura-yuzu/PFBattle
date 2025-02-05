@@ -10,4 +10,5 @@ using UnityEngine;
 public class BattleData : ScriptableObject
 {
     public List<CreatureSetting> selectedCharacterList;
+    public Stage stage;
 }

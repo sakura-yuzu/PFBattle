@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 class Action
 {
@@ -6,7 +7,8 @@ class Action
 	public string item;
 	public string[] enemy;
 	public string[] character;
-  public ActionType actionType;
+	public ActionType actionType;
+	public Character actioner;
 
 	public Action(string actionTypeStr, string skill, string item, string[] enemy, string[] character)
 	{
@@ -17,11 +19,21 @@ class Action
 		this.character = character;
 	}
 
-    public enum ActionType
-    {
-        Attack,
-				Defense,
-				Skill,
-				Item
-    }
+	public void setActioner(Character character)
+	{
+		this.actioner = character;
+	}
+
+	public void execute()
+	{
+		actioner.execute(this);
+	}
+
+	public enum ActionType
+	{
+		Attack,
+		Defense,
+		Skill,
+		Item
+	}
 }

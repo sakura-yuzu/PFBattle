@@ -14,7 +14,7 @@ public class Creature : MonoBehaviour
   protected int mp;
   protected int attackPower;
   protected int defensePower;
-  protected int speed;
+  public int speed;
   protected string prefabAddress;
   protected string description;
   public Animator anim;
@@ -32,6 +32,10 @@ public class Creature : MonoBehaviour
 
 	public async UniTask<int> Damaged(int damage){
 		hp -= damage;
+		if (anim == null || anim.Equals(null))
+		{
+			return hp;
+		}
 		anim?.SetBool("Damaged", true);
 		await UniTask.Delay(TimeSpan.FromSeconds(1f));
 		anim?.SetBool("Damaged", false);
@@ -39,9 +43,15 @@ public class Creature : MonoBehaviour
 	}
 
   public async UniTask Death(){
+		if (anim == null || anim.Equals(null))
+		{
+			return;
+		}
 		anim?.SetBool("Death", true);
 		await UniTask.Delay(TimeSpan.FromSeconds(1f));
 		anim?.SetBool("Death", false);
+		
+		anim = null;
 		Destroy(gameObject);
 	}
 }
