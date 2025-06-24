@@ -29,12 +29,16 @@ class SelectSkillPanel : ToggleGroupInherit
 		// Button button;
 		BaseButton systemButton;
 		Debug.Log("skills.Count: " + skills.Count);
-		foreach(Skill skill in skills)
+		foreach (Skill skill in skills)
 		{
 			instance = Instantiate(buttonPrefab, parentPanel);
 			// button = instance.GetComponent<Button>();
 			systemButton = instance.GetComponent<BaseButton>();
 			systemButton.setText(skill.setting.skillName);
+			Toggle toggle = instance.GetComponent<Toggle>();
+			toggle.group = this;
+			toggles.Add(toggle);
+	 
 			// buttons.Add(button);
 		}
 	}

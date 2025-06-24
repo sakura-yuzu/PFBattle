@@ -9,15 +9,12 @@ using System.Threading;
 using System;
 using Cysharp.Threading.Tasks;
 using TMPro;
+
 class SelectTargetEnemyPanel : ToggleGroupInherit
 {
 	public Transform parentPanel;
 
 	public List<Creature> enemies;
-
-	async void Awake(){
-		toggles = new List<Toggle>();
-	}
 
 	public void setEnemies(List<Creature> _enemies){
 		enemies = _enemies;
@@ -37,7 +34,9 @@ class SelectTargetEnemyPanel : ToggleGroupInherit
 			// button = instance.GetComponent<Button>();
 			systemButton = instance.GetComponent<BaseButton>();
 			systemButton.setText(enemy.displayName);
-			toggles.Add(instance.GetComponent<Toggle>());
+			Toggle toggle = instance.GetComponent<Toggle>();
+			toggle.group = this;
+			toggles.Add(toggle);
 			// buttons.Add(button);
 		}
 	}

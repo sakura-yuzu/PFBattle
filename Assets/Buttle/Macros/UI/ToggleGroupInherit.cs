@@ -19,6 +19,11 @@ class ToggleGroupInherit : ToggleGroup
 	public EventSystem eventSystem;
 	public GameObject selfPanel;
 	public GameObject prevPanel;
+
+	override protected void Awake()
+	{
+		toggles = new List<Toggle>();
+	}
 	public void SetAllTogglesEnable(bool enable)
 	{
 		toggles.ForEach((Toggle toggle) => { toggle.enabled = enable; });
@@ -99,7 +104,8 @@ class ToggleGroupInherit : ToggleGroup
 		selfPanel.SetActive(false);
 	}
 
-	void OnDestroy()
+
+	override protected void OnDestroy()
 	{
 		Debug.Log($"{gameObject.name} destroyed");
 	}

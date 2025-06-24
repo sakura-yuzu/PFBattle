@@ -36,7 +36,9 @@ class SelectTargetAllyPanel : ToggleGroupInherit
 			// button = instance.GetComponent<Button>();
 			systemButton = instance.GetComponent<BaseButton>();
 			systemButton.setText(ally.displayName);
-			toggles.Add(instance.GetComponent<Toggle>());
+			Toggle toggle = instance.GetComponent<Toggle>();
+			toggle.group = this;
+			toggles.Add(toggle);
 			// buttons.Add(button);
 		}
 	}
