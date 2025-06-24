@@ -1,22 +1,26 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using System.Linq;
 
-class Action
+public class Action
 {
 	public string skill;
 	public string item;
-	public string[] enemy;
-	public string[] character;
+	public List<string> enemies;
+	public List<string> allies;
 	public ActionType actionType;
 	public Character actioner;
 
-	public Action(string actionTypeStr, string skill, string item, string[] enemy, string[] character)
+	public Action(string actionTypeStr, string skill, string item, List<string> enemies, List<string> allies)
 	{
-		actionType = (ActionType)Enum.Parse(typeof(ActionType), actionTypeStr);
+		Debug.Log("actionTypeStr: " + actionTypeStr);
+		actionType = ActionType.Attack; //(ActionType)Enum.Parse(typeof(ActionType), actionTypeStr);
 		this.skill = skill;
 		this.item = item;
-		this.enemy = enemy;
-		this.character = character;
+		this.enemies = enemies;
+		this.allies = allies;
 	}
 
 	public void setActioner(Character character)
@@ -24,9 +28,9 @@ class Action
 		this.actioner = character;
 	}
 
-	public void execute()
+	public async UniTask execute()
 	{
-		actioner.execute(this);
+		await this.actioner.execute(this);
 	}
 
 	public enum ActionType
@@ -35,5 +39,11 @@ class Action
 		Defense,
 		Skill,
 		Item
+	}
+
+	public bool isAttack()
+	{
+		// TODO: スキル側の判定が違う
+		return actionType == ActionType.Attack || (actionType == ActionType.Skill && skill == "Attack");
 	}
 }

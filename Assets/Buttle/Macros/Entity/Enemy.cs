@@ -6,7 +6,10 @@ using System;
 
 class Enemy : Creature, IEnemyAttack
 {
-
+	protected override void Start()
+	{
+		base.Start();
+	}
 	public void Attack(Creature target)
 	{}
 }

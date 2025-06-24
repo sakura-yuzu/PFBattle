@@ -26,9 +26,9 @@ class SettingSceneController : MonoBehaviour
 	public GameObject[] selectedMemberImageList;
 	public List<CreatureSetting> selectedMemberList;
 
-	void Awake()
+	async void Awake()
 	{
-		Prepare();
+		await Prepare();
 		characterAssignButton.onClick.AddListener(() =>
 		{
 			CreatureSetting character = characterDetailPanelComponent.getCharacter();
@@ -37,7 +37,7 @@ class SettingSceneController : MonoBehaviour
 		});
 	}
 
-	public async void Prepare()
+	public async UniTask Prepare()
 	{
 		characterDetailPanelComponent = characterDetailPanel.GetComponent<CharacterDetailPanelComponent>();
 

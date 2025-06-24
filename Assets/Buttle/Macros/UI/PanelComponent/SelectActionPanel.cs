@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UnityEngine.UI;
+using System.Linq;
 class SelectActionPanel : MonoBehaviour
 {
 	public GameObject selectActionPanel;
@@ -10,37 +12,31 @@ class SelectActionPanel : MonoBehaviour
 	public GameObject selectItemPanel;
 	public GameObject selectTargetEnemyPanel;
 	public GameObject selectTargetAllyPanel;
-
 	public ToggleGroupInherit[] panels;
-
 	public BattleManager battleManager;
+	private List<string> enemies;
+	private List<string> allies;
 
-	public async UniTask<Action> selectAction(CancellationToken cancellationToken)
+	public async UniTask<Action> selectAction(Character actioner, CancellationToken cancellationToken)
 	{
 		// selectActionPanel.SetActive(true);
 		// await selectActionPanel.GetComponent<ToggleGroupInherit>().selectAsync(cancellationToken);
+		enemies = new List<string>();
+		allies = new List<string>();
+
 		await UniTask.WhenAny(panels
 			.Select(panel => panel.selectAsync(cancellationToken)));
+
 		string actionType = selectActionPanel.GetComponent<ToggleGroupInherit>().getValue();
-		string skill = selectSkillPanel.GetComponent<ToggleGroupInherit>()?.getValue();
+		string skillName = selectSkillPanel.GetComponent<ToggleGroupInherit>()?.getValue();
 		string item = selectItemPanel.GetComponent<ToggleGroupInherit>()?.getValue();
-		// string enemy = selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.getValue();
-		string[] enemies = selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.getValues();
-		foreach(string enemy in enemies){
-			// Debug.Log("test: "+enemy);
-		}
-		// string[] enemies = new string[] {enemy};
-		string ally = selectTargetAllyPanel.GetComponent<ToggleGroupInherit>()?.getValue();
-		string[] allies = new string[] {ally};
-		// Debug.Log("action: " + actionType);
-		// Debug.Log("skill: " + skill);
-		// Debug.Log("item: " + item);
-		// // Debug.Log("enemy: " + enemy);
-		// Debug.Log("ally: " + ally);
+
+		enemies.Add(selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.getValue());
+		allies.Add(selectTargetAllyPanel.GetComponent<ToggleGroupInherit>()?.getValue());
 
 		return new Action(
 			actionType,
-			skill,
+			skillName,
 			item,
 			enemies,
 			allies

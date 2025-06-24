@@ -18,4 +18,4 @@ EditorBuildSettings:
     path: Assets/Buttle/Scenes/ResultScene.unity
     guid: 68bcfdabfa1ac814db42a490ecf2bc20
   m_configObjects:
-    com.unity.addressableassets: {fileID: 11400000, guid: 76ab60e188d1b1d438c3a5aa89d4ec44, type: 2}
+    com.unity.addressableassets: {fileID: 11400000, guid: acbe3293500e19349933df644ecd8a9a, type: 2}

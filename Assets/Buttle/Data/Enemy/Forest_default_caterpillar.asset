@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3b0be33997be8646bb1634a4d4b298e, type: 3}
   m_Name: Forest_default_caterpillar
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: "\u3044\u3082\u3080\u3057"
   hp: 0
   mp: 0
-  attackPower: 0
-  defensePower: 0
+  attackPower: 10
+  defensePower: 10
   speed: 0
   prefabAddress: Assets/Buttle/Prefab/Enemy/caterpillar.prefab
   description: 

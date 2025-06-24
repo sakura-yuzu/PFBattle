@@ -9,32 +9,33 @@ using System.Threading;
 using System;
 using Cysharp.Threading.Tasks;
 using TMPro;
-class SelectTargetEnemyPanelComponent : ButtonPanel
+class SelectSkillPanel : ToggleGroupInherit
 {
 	public Transform parentPanel;
 
-	public List<CreatureSetting> enemies;
+	public List<Skill> skills;
 
-	void Awake(){
-		Prepare();
+	// async void Awake(){
+	// 	// await Prepare();
+	// }
+
+	public void setSkills(List<Skill> _skills){
+		skills = _skills;
 	}
 
-	public void setEnemies(List<CreatureSetting> _enemies){
-		enemies = _enemies;
-	}
-
-	private async UniTask Prepare(){
-		var buttonPrefab = await Addressables.LoadAssetAsync<GameObject>("SystemButton").Task;
+	public async UniTask Prepare(){
+		var buttonPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/UI/SystemButton.prefab").Task;
 		GameObject instance;
-		Button button;
-		SystemButton systemButton;
-		foreach(CreatureSetting enemy in enemies)
+		// Button button;
+		BaseButton systemButton;
+		Debug.Log("skills.Count: " + skills.Count);
+		foreach(Skill skill in skills)
 		{
 			instance = Instantiate(buttonPrefab, parentPanel);
-			button = instance.GetComponent<Button>();
-			systemButton = instance.GetComponent<SystemButton>();
-			systemButton.setText(enemy.displayName);
-			buttons.Add(button);
+			// button = instance.GetComponent<Button>();
+			systemButton = instance.GetComponent<BaseButton>();
+			systemButton.setText(skill.setting.skillName);
+			// buttons.Add(button);
 		}
 	}
 		// public override async UniTask<Action> AwaitAnyButtonClickedAsync(CancellationToken cancellationToken)
@@ -43,7 +44,7 @@ class SelectTargetEnemyPanelComponent : ButtonPanel
     // 									.Select(button => button.OnClickAsync(cancellationToken)));
 		// 	// await UniTask.Delay(TimeSpan.FromSeconds(5f));
 		// 	Action act =  new Action();
-		// 	act.targetEnemy = enemies[pushed];
+		// 	act.targetEnemy = skills[pushed];
 		// 	return act;
     // }
 }

@@ -8,28 +8,36 @@ using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
-class SelectTargetAllyPanel : ButtonPanel
+class SelectTargetAllyPanel : ToggleGroupInherit
 {
 	public Transform parentPanel;
 
-	private List<Character> allies;
+	private List<Creature> allies;
 
-	void Awake()
-	{
-		Prepare();
-	}
+	// async void Awake()
+	// {
+	// 	// await Prepare();
+	// }
 
-	public void setAllies(List<Character> _allies)
+	public void setAllies(List<Creature> _allies)
 	{
 		allies = _allies;
 	}
 
-	private async UniTask Prepare()
-	{
-		var buttonPrefab = await Addressables.LoadAssetAsync<GameObject>("SystemButton").Task;
-		foreach (Character ally in allies)
+	public async UniTask Prepare(){
+		var buttonPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/UI/SelectTargetToggle.prefab").Task;
+		GameObject instance;
+		// Button button;
+		BaseButton systemButton;
+		Debug.Log("allies.Count: " + allies.Count);
+		foreach(Creature ally in allies)
 		{
-			buttons.Add(Instantiate(buttonPrefab, parentPanel).GetComponent<Button>());
+			instance = Instantiate(buttonPrefab, parentPanel);
+			// button = instance.GetComponent<Button>();
+			systemButton = instance.GetComponent<BaseButton>();
+			systemButton.setText(ally.displayName);
+			toggles.Add(instance.GetComponent<Toggle>());
+			// buttons.Add(button);
 		}
 	}
 

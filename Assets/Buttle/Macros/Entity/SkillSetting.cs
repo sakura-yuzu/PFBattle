@@ -14,9 +14,10 @@ public class SkillSetting : ScriptableObject
     public int target;                                  // 効果対象　自分、仲間一人、仲間全体、敵一人、敵全体
     public bool acquired;                               // 習得済み
     public int weaponType;                              // このスキルを利用できる武器　あとでenum書く
-    public int attributeType;                           // 属性
+    public AttributeType attributeType;                           // 属性
     public string animationName;                        // 実行時に再生するアニメーション
     public SkillType skillType;
+    public TargetType targetType;
     public enum WeaponEnum
     {
         Rod,                                             // 杖
@@ -37,5 +38,13 @@ public class SkillSetting : ScriptableObject
     {
         Enchant,                                         // 回復とかバフとか
         Attack                                           // 攻撃とかデバフとか
+    }
+
+    public enum TargetType
+    {
+        AllyOne,                                         // 仲間一人
+        AllyAll,                                         // 仲間全体
+        EnemyOne,                                        // 敵一人
+        EnemyAll                                         // 敵全体
     }
 }

@@ -16,7 +16,7 @@ MonoBehaviour:
   hp: 0
   mp: 0
   attackPower: 0
-  defensePower: 0
+  defensePower: 10
   speed: 0
   prefabAddress: Assets/Buttle/Prefab/Enemy/mushroom.prefab
   description: 

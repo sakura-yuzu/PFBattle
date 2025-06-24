@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   field: {fileID: 5039475417807652885, guid: 1083fa8a8d0f6874bbde553912d67579, type: 3}
   enemyList:
-  - {fileID: 11400000, guid: 92c679b25d364634e90fc02674e090d7, type: 2}
+  - {fileID: 11400000, guid: 7c68d056d49dc6d4da2656c04fa4c6ef, type: 2}
   - {fileID: 11400000, guid: 7c68d056d49dc6d4da2656c04fa4c6ef, type: 2}
   enemyPositionList: []
   filePath: Assets/Buttle/Data/Stage/json/forest.json

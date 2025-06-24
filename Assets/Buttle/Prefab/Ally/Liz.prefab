@@ -136,5 +136,12 @@ MonoBehaviour:
   setting: {fileID: 11400000, guid: 5264ff40a5929fd41b5dea8de12ef122, type: 2}
   skills:
   - {fileID: 11400000, guid: 09399834fe55ed04fb95b91c8a930beb, type: 2}
+  displayName: "\u30EA\u30BA\u30EA\u30A8"
+  hp: 0
+  mp: 0
+  attackPower: 0
+  defensePower: 0
   speed: 0
+  prefabAddress: 
+  description: 
   anim: {fileID: 7764910808894730553}
