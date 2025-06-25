@@ -35,6 +35,7 @@ class SelectTargetEnemyPanel : ToggleGroupInherit
 			// button = instance.GetComponent<Button>();
 			systemButton = instance.GetComponent<BaseButton>();
 			systemButton.setText(enemy.displayName);
+			systemButton.value = enemy.displayName; // Set the value for the button
 			Toggle toggle = instance.GetComponent<Toggle>();
 			toggle.group = this;
 			toggles.Add(toggle);
