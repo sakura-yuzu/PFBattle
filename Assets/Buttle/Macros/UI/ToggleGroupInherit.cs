@@ -20,10 +20,6 @@ class ToggleGroupInherit : ToggleGroup
 	public GameObject selfPanel;
 	public GameObject prevPanel;
 
-	override protected void Awake()
-	{
-		toggles = new List<Toggle>();
-	}
 	public void SetAllTogglesEnable(bool enable)
 	{
 		toggles.ForEach((Toggle toggle) => { toggle.enabled = enable; });

@@ -43,6 +43,8 @@ class BattleManager : MonoBehaviour
 		allies = new List<Creature>();
 		await Prepare();
 		await Battle();
+		Debug.Log("Battle Ended");
+		SceneExit();
 	}
 
 	private async UniTask Prepare()
@@ -143,10 +145,8 @@ class BattleManager : MonoBehaviour
 				}
 			}
 
-			BattleContinue = false;
+			// BattleContinue = false;
 		} while (BattleContinue);
-		Debug.Log("Battle Ended");
-		// SceneExit();
 	}
 
 	// シーンを終了し、ResultSceneに遷移

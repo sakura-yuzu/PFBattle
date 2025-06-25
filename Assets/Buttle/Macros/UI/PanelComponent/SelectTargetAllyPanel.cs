@@ -25,6 +25,7 @@ class SelectTargetAllyPanel : ToggleGroupInherit
 	}
 
 	public async UniTask Prepare(){
+		toggles = new List<Toggle>();
 		var buttonPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/UI/SelectTargetToggle.prefab").Task;
 		GameObject instance;
 		// Button button;
