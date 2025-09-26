@@ -15,7 +15,6 @@ public class Action
 
 	public Action(string actionTypeStr, string skill, string item, List<string> enemies, List<string> allies)
 	{
-		Debug.Log("actionTypeStr: " + actionTypeStr);
 		actionType = ActionType.Attack; //(ActionType)Enum.Parse(typeof(ActionType), actionTypeStr);
 		this.skill = skill;
 		this.item = item;

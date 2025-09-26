@@ -30,7 +30,6 @@ class SelectTargetAllyPanel : ToggleGroupInherit
 		GameObject instance;
 		// Button button;
 		BaseButton systemButton;
-		Debug.Log("allies.Count: " + allies.Count);
 		foreach(Creature ally in allies)
 		{
 			instance = Instantiate(buttonPrefab, parentPanel);

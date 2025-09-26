@@ -11,7 +11,7 @@ public class SkillSetting : ScriptableObject
     public string skillName;
     public string description;
     public int requiredPoint;                           // 必要MP
-    public int target;                                  // 効果対象　自分、仲間一人、仲間全体、敵一人、敵全体
+    // public int target;                                  // 効果対象　自分、仲間一人、仲間全体、敵一人、敵全体
     public bool acquired;                               // 習得済み
     public int weaponType;                              // このスキルを利用できる武器　あとでenum書く
     public AttributeType attributeType;                           // 属性

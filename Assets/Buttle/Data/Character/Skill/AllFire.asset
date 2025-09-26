@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: AllFire
   m_EditorClassIdentifier: 
   id: 0
-  skillName: "\u5168\u4F53\u708E"
+  skillName: AllFire
   description: 
   requiredPoint: 0
-  target: 0
   acquired: 0
   weaponType: 0
   attributeType: 0
   animationName: 
   skillType: 0
-  targetType: 0
+  targetType: 3

@@ -58,7 +58,6 @@ class SettingSceneController : MonoBehaviour
 
 	public void onClickMemberSelectButton(CreatureSetting character)
 	{
-		// Debug.Log(character.displayName);
 		characterDetailPanelComponent.setCharacter(character);
 	}
 

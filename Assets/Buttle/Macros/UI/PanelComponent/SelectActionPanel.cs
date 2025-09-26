@@ -31,8 +31,13 @@ class SelectActionPanel : MonoBehaviour
 		string skillName = selectSkillPanel.GetComponent<ToggleGroupInherit>()?.getValue();
 		string item = selectItemPanel.GetComponent<ToggleGroupInherit>()?.getValue();
 
-		enemies.Add(selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.getValue());
+		// TODO: どうやって全体攻撃認識しようかなあ
+		enemies = selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.getValues().ToList() ?? new List<string>();
+		// enemies.Add(selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.getValues());
 		allies.Add(selectTargetAllyPanel.GetComponent<ToggleGroupInherit>()?.getValue());
+
+		Debug.Log($"ActionType: {actionType}, Skill: {skillName}, Item: {item}");
+		Debug.Log($"Enemies: {string.Join(", ", enemies)}, Allies: {string.Join(", ", allies)}");
 
 		return new Action(
 			actionType,

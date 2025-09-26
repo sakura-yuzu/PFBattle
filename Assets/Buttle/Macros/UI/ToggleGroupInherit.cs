@@ -38,17 +38,15 @@ class ToggleGroupInherit : ToggleGroup
 
 	public string[] getValues()
 	{
-		IEnumerable<Toggle> ggles = this.ActiveToggles();
-		IEnumerable<Toggle> activeToggles = ggles.Where(toggle => toggle.isOn); // FIXME: ここが取れない
-		IEnumerable<string> onToggles = activeToggles.Select(toggle => toggle.GetComponent<BaseButton>().value);
-		return onToggles.ToArray();
+		return toggles
+			.Select(toggle => toggle.GetComponent<BaseButton>().value)
+			.ToArray();
 	}
 
 	public async UniTask selectAsync(CancellationToken cancellationToken)
 	{
 		if (toggles.Count == 0)
 		{
-			Debug.Log($"toggles.Count == 0 ({this.GetType().Name})");
 			return;
 		}
 		await UniTask.WhenAny(toggles
@@ -87,7 +85,6 @@ class ToggleGroupInherit : ToggleGroup
 	}
 	public void Cancel()
 	{
-		Debug.Log("キャンセル");
 		// 操作不能にしていたパネルのトグルを復活させる
 		SetAllTogglesEnable(true);
 		// 選択していたものがOn状態のままでは困るのでOffにする

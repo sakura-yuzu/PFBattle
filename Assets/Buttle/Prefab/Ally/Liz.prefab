@@ -136,6 +136,7 @@ MonoBehaviour:
   setting: {fileID: 11400000, guid: 5264ff40a5929fd41b5dea8de12ef122, type: 2}
   skills:
   - {fileID: 11400000, guid: 09399834fe55ed04fb95b91c8a930beb, type: 2}
+  - {fileID: 11400000, guid: cc1d4e58bcb1f6840b6df16dc497d6ae, type: 2}
   displayName: "\u30EA\u30BA\u30EA\u30A8"
   hp: 0
   mp: 0

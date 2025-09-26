@@ -27,10 +27,8 @@ class SelectTargetEnemyPanel : ToggleGroupInherit
 		GameObject instance;
 		// Button button;
 		BaseButton systemButton;
-		Debug.Log("enemies.Count: " + enemies.Count);
 		foreach(Creature enemy in enemies)
 		{
-			Debug.Log("enemy.displayName: " + enemy.displayName);
 			instance = Instantiate(buttonPrefab, parentPanel);
 			// button = instance.GetComponent<Button>();
 			systemButton = instance.GetComponent<BaseButton>();

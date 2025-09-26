@@ -19,6 +19,8 @@ class BattleManager : MonoBehaviour
 	private List<Creature> enemies;
 	private List<Creature> allies;
 	public BattleData battleData;
+
+	// TODO: なんでアクションパネルとその他で型が違うんだか覚えてない
 	public SelectActionPanel selectActionPanel;
 	public GameObject selectSkillPanel;
 	public GameObject selectItemPanel;
@@ -43,7 +45,6 @@ class BattleManager : MonoBehaviour
 		allies = new List<Creature>();
 		await Prepare();
 		await Battle();
-		Debug.Log("Battle Ended");
 		SceneExit();
 	}
 
@@ -106,12 +107,17 @@ class BattleManager : MonoBehaviour
 			actions = new List<Action>();
 			foreach (Character ally in allies)
 			{
-				Debug.Log(ally.displayName + "の行動を選択してください");
-				Debug.Log(ally);
-				IEnumerable<string> skillNameList = ally.skills.Select(x => x.skillName);
-				selectSkillPanel.GetComponent<SelectSkillPanel>().regenerateButtons(skillNameList);
-				
+				// IEnumerable<string> skillNameList = ally.skills.Select(x => x.skillName);
+				// selectSkillPanel.GetComponent<SelectSkillPanel>().regenerateButtons(skillNameList);
+				selectSkillPanel.GetComponent<SelectSkillPanel>().setSkills(ally.skills);
+				selectSkillPanel.GetComponent<SelectSkillPanel>().Prepare();
+
+				selectActionPanel.gameObject.SetActive(true);
 				Action action = await selectActionPanel.selectAction(ally, cancellationToken);
+				selectActionPanel.gameObject.SetActive(false);
+				selectSkillPanel.SetActive(false);
+				selectTargetEnemyPanel.SetActive(false);
+				selectTargetAllyPanel.SetActive(false);
 				action.setActioner(ally);
 				actions.Add(action);
 			}
@@ -127,8 +133,8 @@ class BattleManager : MonoBehaviour
 
 				foreach (var enemyName in action.enemies)
 				{
+					// TODO: 全体攻撃対応
 					Creature enemyCharacter = enemies.Find(enemy => enemy.displayName.Equals(enemyName));
-					Debug.Log(enemyName);
 					if (enemyCharacter != null)
 					{
 						enemyCharacter.ReactToAction(action);
@@ -145,7 +151,7 @@ class BattleManager : MonoBehaviour
 				}
 			}
 
-			// BattleContinue = false;
+			BattleContinue = false;
 		} while (BattleContinue);
 	}
 

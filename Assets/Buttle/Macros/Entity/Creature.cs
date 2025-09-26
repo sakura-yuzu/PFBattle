@@ -22,24 +22,15 @@ public class Creature : MonoBehaviour
 
 	protected virtual void Start()
 	{
-		Debug.Log("Start");
-		// displayName = setting.displayName;
 		hp = setting.hp;
 		mp = setting.mp;
 		attackPower = setting.attackPower;
 		defensePower = setting.defensePower;
 		speed = setting.speed;
-		// Debug.Log("displayName: " + displayName);
-		// Debug.Log("hp: " + hp);
-		// Debug.Log("mp: " + mp);
-		// Debug.Log("attackPower: " + attackPower);
-		// Debug.Log("defensePower: " + defensePower);
-		// Debug.Log("speed: " + speed);
 	}
 
 	public async UniTask<int> Damaged(Action action)
 	{
-		Debug.Log("Damaged");
 		int damage = 100 * action.actioner.attackPower / defensePower;
 		hp -= damage;
 		if (anim == null || anim.Equals(null))
@@ -72,7 +63,6 @@ public class Creature : MonoBehaviour
 		{
 			return;
 		}
-		Debug.Log(anim);
 		// switch (action.actionType)
 		// {
 		// 	case Action.ActionType.Attack:
@@ -102,8 +92,6 @@ public class Creature : MonoBehaviour
 	public void ReactToAction(Action action)
 	{
 		// ここでアクションに対するリアクションを書く
-		Debug.Log("ReactToAction");
-		Debug.Log(this);
 		if (action.isAttack())
 		{
 			// 攻撃された時の処理
