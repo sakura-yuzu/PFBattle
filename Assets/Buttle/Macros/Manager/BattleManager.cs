@@ -28,6 +28,8 @@ class BattleManager : MonoBehaviour
 	public GameObject selectTargetAllyPanel;
 	public GameObject characterStatusPanel;
 
+	private ActionManager actionManager;
+
 	private List<Vector3> enemyPositionList;
 
 	private bool BattleContinue = true;
@@ -50,6 +52,14 @@ class BattleManager : MonoBehaviour
 
 	private async UniTask Prepare()
 	{
+		actionManager = new ActionManager(
+			// eventSystem,
+			selectActionPanel,
+			selectSkillPanel,
+			// selectItemPanel,
+			selectTargetAllyPanel,
+			selectTargetEnemyPanel
+		);
 		// ステージ生成
 		Instantiate(battleData.stage.field, new Vector3(0, 0, 0), Quaternion.identity);
 
@@ -107,18 +117,7 @@ class BattleManager : MonoBehaviour
 			actions = new List<Action>();
 			foreach (Character ally in allies)
 			{
-				// IEnumerable<string> skillNameList = ally.skills.Select(x => x.skillName);
-				// selectSkillPanel.GetComponent<SelectSkillPanel>().regenerateButtons(skillNameList);
-				selectSkillPanel.GetComponent<SelectSkillPanel>().setSkills(ally.skills);
-				selectSkillPanel.GetComponent<SelectSkillPanel>().Prepare();
-
-				selectActionPanel.gameObject.SetActive(true);
-				Action action = await selectActionPanel.selectAction(ally, cancellationToken);
-				selectActionPanel.gameObject.SetActive(false);
-				selectSkillPanel.SetActive(false);
-				selectTargetEnemyPanel.SetActive(false);
-				selectTargetAllyPanel.SetActive(false);
-				action.setActioner(ally);
+				Action action = await actionManager.selectAction(ally, cancellationToken);
 				actions.Add(action);
 			}
 

@@ -39,12 +39,14 @@ class SelectActionPanel : MonoBehaviour
 		Debug.Log($"ActionType: {actionType}, Skill: {skillName}, Item: {item}");
 		Debug.Log($"Enemies: {string.Join(", ", enemies)}, Allies: {string.Join(", ", allies)}");
 
-		return new Action(
+		Action action = new Action(
 			actionType,
 			skillName,
 			item,
 			enemies,
 			allies
 		);
+		action.setActioner(actioner);
+		return action;
 	}
 }
