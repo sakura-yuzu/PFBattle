@@ -40,8 +40,7 @@ class BattleStageManager
     UnityEngine.Object.Instantiate(battleData.stage.field, new Vector3(0, 0, 0), Quaternion.identity);
 
     // エネミーの位置を読み込み
-    string json = File.ReadAllText(battleData.stage.filePath);
-    enemyPositionList = LoadFromJSON(json);
+    enemyPositionList = JsonFileParser.LoadFromJSON<EnemyPositionData>(battleData.stage.filePath).enemyPositions;
 
     int i = 0;
     // エネミー生成
@@ -57,13 +56,6 @@ class BattleStageManager
       allies.Add(allyComponent);
     }
   }
-
-  public List<Vector3> LoadFromJSON(string json)
-  {
-    var data = JsonUtility.FromJson<EnemyPositionData>(json);
-    return data.enemyPositions;
-  }
-
   private async UniTask<Creature> instantiateCharacter(CreatureSetting creatureSetting, Vector3 position, GameObject parent)
   {
     var characterPrefab = await Addressables.LoadAssetAsync<GameObject>(creatureSetting.prefabAddress).Task;
@@ -85,8 +77,4 @@ class BattleStageManager
     characterComponent.displayName = uniqueName;
     return characterComponent;
   }
-	public class EnemyPositionData
-	{
-		public List<Vector3> enemyPositions;
-	}
 }
