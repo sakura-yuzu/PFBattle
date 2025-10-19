@@ -82,7 +82,7 @@ class BattleManager : MonoBehaviour
 			actions = new List<Action>();
 			foreach (Character ally in allies)
 			{
-				Action action = await actionManager.selectAction(ally, cancellationToken);
+				Action action = await actionManager.selectAction(ally, allies, enemies, cancellationToken);
 				actions.Add(action);
 			}
 
