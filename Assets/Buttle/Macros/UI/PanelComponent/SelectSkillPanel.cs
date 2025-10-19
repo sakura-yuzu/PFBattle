@@ -36,61 +36,39 @@ class SelectSkillPanel : ToggleGroupInherit
 			ToggleInherit toggle = instance.GetComponent<ToggleInherit>();
 			toggle.SetObject(skill);
 			toggle.group = this;
-
-			Debug.Log($"skill.targetType: {skill.targetType}");
-			if (skill.targetType == SkillSetting.TargetType.EnemyOne ||
-				skill.targetType == SkillSetting.TargetType.EnemyAll)
+			toggle.onValueChanged.AddListener((bool isOn) =>
 			{
-				toggle.onValueChanged.AddListener((bool isOn) =>
-				{
-					Debug.Log($"50: isOn: {isOn}");
-					if (isOn)
-					{
-						selectTargetEnemyPanel.SetActive(true);
-						selectTargetAllyPanel.SetActive(false);
-						if (skill.targetType == SkillSetting.TargetType.EnemyAll)
-						{
-							foreach (var enemyToggle in selectTargetEnemyPanel.GetComponentsInChildren<Toggle>())
-							{
-								if (enemyToggle.transition == Selectable.Transition.SpriteSwap)
-								{
-									var image = enemyToggle.targetGraphic as Image;
-									if (image != null)
-									{
-										image.sprite = enemyToggle.spriteState.highlightedSprite;
-									}
-								}
-							}
-						}
-					}
-				});
-			}
-			else
-			{
-				toggle.onValueChanged.AddListener((bool isOn) =>
-				{
-					Debug.Log($"62: isOn: {isOn}");
-					if (isOn)
-					{
-						selectTargetEnemyPanel.SetActive(false);
-						selectTargetAllyPanel.SetActive(true);
-					}
-				});
-			}
-
+				displayNextPanel(toggle, skill, isOn);
+			});
 			toggles.Add(toggle);
-
-			// buttons.Add(button);
 		}
 	}
 
-	// public override async UniTask<Action> AwaitAnyButtonClickedAsync(CancellationToken cancellationToken)
-	// {
-	// 	var pushed = await UniTask.WhenAny(buttons
-	// 									.Select(button => button.OnClickAsync(cancellationToken)));
-	// 	// await UniTask.Delay(TimeSpan.FromSeconds(5f));
-	// 	Action act =  new Action();
-	// 	act.targetEnemy = skills[pushed];
-	// 	return act;
-	// }
+	private void displayNextPanel(ToggleInherit toggle, SkillSetting skill, bool isOn)
+	{
+		if (isOn)
+		{
+			// まだちょっと無駄がある気がする
+			if (skill.targetType == SkillSetting.TargetType.EnemyAll
+			|| skill.targetType == SkillSetting.TargetType.EnemyOne)
+			{
+				selectTargetEnemyPanel.SetActive(true);
+				selectTargetAllyPanel.SetActive(false);
+				if (skill.targetType == SkillSetting.TargetType.EnemyAll)
+				{
+					selectTargetEnemyPanel.GetComponent<SelectTargetEnemyPanel>().selectAll();
+				}
+			}
+			else if (skill.targetType == SkillSetting.TargetType.AllyAll ||
+			skill.targetType == SkillSetting.TargetType.AllyOne)
+			{
+				selectTargetEnemyPanel.SetActive(false);
+				selectTargetAllyPanel.SetActive(true);
+				if (skill.targetType == SkillSetting.TargetType.AllyAll)
+				{
+					selectTargetAllyPanel.GetComponent<SelectTargetAllyPanel>().selectAll();
+				}
+			}
+		}
+	}
 }

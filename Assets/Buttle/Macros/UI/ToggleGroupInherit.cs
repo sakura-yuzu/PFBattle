@@ -84,7 +84,8 @@ class ToggleGroupInherit : ToggleGroup
 		Debug.Log($"{gameObject.name} destroyed");
 	}
 
-	public T GetSelectedObject<T>() where T : class {
+	public T GetSelectedObject<T>() where T : class
+	{
 		Toggle toggle = Array.Find<Toggle>(ActiveToggles().ToArray(), toggle => toggle.isOn);
 		if (toggle)
 		{
@@ -93,10 +94,26 @@ class ToggleGroupInherit : ToggleGroup
 		return null;
 	}
 
-	public List<T> GetSelectedObjects<T>() where T : class {
+	public List<T> GetSelectedObjects<T>() where T : class
+	{
 		return ActiveToggles()
 			.Select(toggle => toggle.GetComponent<ToggleInherit>().GetObject<T>())
 			.Where(obj => obj != null)
 			.ToList();
+	}
+
+	public void selectAll()
+	{
+		foreach (ToggleInherit toggle in toggles)
+		{
+			if (toggle.transition == Selectable.Transition.SpriteSwap)
+			{
+				var image = toggle.targetGraphic as Image;
+				if (image != null)
+				{
+					image.sprite = toggle.spriteState.highlightedSprite;
+				}
+			}
+		}
 	}
 }
