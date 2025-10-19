@@ -45,6 +45,10 @@ class BattleManager : MonoBehaviour
 
 	private async UniTask Prepare()
 	{
+		/**
+		* 行動選択マネージャ
+		* 行動→詳細→対象の選択までのUIを一括で管理する
+		*/
 		actionManager = new ActionManager(
 			// eventSystem,
 			selectActionPanel,
@@ -54,11 +58,16 @@ class BattleManager : MonoBehaviour
 			selectTargetEnemyPanel
 		);
 
+    /**
+		* バトルステージマネージャ
+		* エネミー、味方の生成、ステージの生成を行う
+		*/
 		battleStageManager = new BattleStageManager(battleData, selectTargetEnemyPanel, selectTargetAllyPanel);
 		await battleStageManager.Prepare();
 
 		enemies = battleStageManager.enemies;
 		allies = battleStageManager.allies;
+
 		selectTargetAllyPanel.GetComponent<SelectTargetAllyPanel>().setAllies(allies);
 		await selectTargetAllyPanel.GetComponent<SelectTargetAllyPanel>().Prepare();
 		selectTargetEnemyPanel.GetComponent<SelectTargetEnemyPanel>().setEnemies(enemies);

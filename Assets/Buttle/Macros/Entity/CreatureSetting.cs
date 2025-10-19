@@ -15,4 +15,14 @@ public class CreatureSetting : ScriptableObject
   public string prefabAddress;
   public string description;
   public List<Skill> skills;
+  public AttributeType attributeType;
+  
+	public enum AttributeType
+	{
+		None,
+		Fire,
+		Water,
+		Air,
+		Earth
+	}
 }

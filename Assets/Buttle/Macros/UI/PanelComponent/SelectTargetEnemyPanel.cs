@@ -22,22 +22,16 @@ class SelectTargetEnemyPanel : ToggleGroupInherit
 	}
 
 	public async UniTask Prepare(){
-		toggles = new List<Toggle>();
+		toggles = new List<ToggleInherit>();
 		var buttonPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/UI/SelectTargetToggle.prefab").Task;
 		GameObject instance;
-		// Button button;
-		BaseButton systemButton;
 		foreach(Creature enemy in enemies)
 		{
 			instance = Instantiate(buttonPrefab, parentPanel);
-			// button = instance.GetComponent<Button>();
-			systemButton = instance.GetComponent<BaseButton>();
-			systemButton.setText(enemy.displayName);
-			systemButton.value = enemy.displayName; // Set the value for the button
-			Toggle toggle = instance.GetComponent<Toggle>();
+			ToggleInherit toggle = instance.GetComponent<ToggleInherit>();
+			toggle.SetObject(enemy);
 			toggle.group = this;
 			toggles.Add(toggle);
-			// buttons.Add(button);
 		}
 	}
 		// public override async UniTask<Action> AwaitAnyButtonClickedAsync(CancellationToken cancellationToken)

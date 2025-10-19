@@ -14,34 +14,30 @@ class SelectActionPanel : MonoBehaviour
 	public GameObject selectTargetAllyPanel;
 	public ToggleGroupInherit[] panels;
 	public BattleManager battleManager;
-	private List<string> enemies;
-	private List<string> allies;
+	private List<Creature> enemies;
+	private List<Creature> allies;
 
 	public async UniTask<Action> selectAction(Character actioner, CancellationToken cancellationToken)
 	{
 		// selectActionPanel.SetActive(true);
 		// await selectActionPanel.GetComponent<ToggleGroupInherit>().selectAsync(cancellationToken);
-		enemies = new List<string>();
-		allies = new List<string>();
+		enemies = new List<Creature>();
+		allies = new List<Creature>();
 
 		await UniTask.WhenAny(panels
 			.Select(panel => panel.selectAsync(cancellationToken)));
 
-		string actionType = selectActionPanel.GetComponent<ToggleGroupInherit>().getValue();
-		string skillName = selectSkillPanel.GetComponent<ToggleGroupInherit>()?.getValue();
-		string item = selectItemPanel.GetComponent<ToggleGroupInherit>()?.getValue();
+		string actionType = selectActionPanel.GetComponent<ToggleGroupInherit>().GetSelectedObject<string>();
+		SkillSetting skill = selectSkillPanel.GetComponent<ToggleGroupInherit>()?.GetSelectedObject<SkillSetting>();
+		Item item = selectItemPanel.GetComponent<ToggleGroupInherit>()?.GetSelectedObject<Item>();
 
 		// TODO: どうやって全体攻撃認識しようかなあ
-		enemies = selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.getValues().ToList() ?? new List<string>();
-		// enemies.Add(selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.getValues());
-		allies.Add(selectTargetAllyPanel.GetComponent<ToggleGroupInherit>()?.getValue());
-
-		Debug.Log($"ActionType: {actionType}, Skill: {skillName}, Item: {item}");
-		Debug.Log($"Enemies: {string.Join(", ", enemies)}, Allies: {string.Join(", ", allies)}");
+		enemies = selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.GetSelectedObjects<Creature>() ?? new List<Creature>();
+		allies.Add(selectTargetAllyPanel.GetComponent<ToggleGroupInherit>()?.GetSelectedObject<Creature>());
 
 		Action action = new Action(
 			actionType,
-			skillName,
+			skill,
 			item,
 			enemies,
 			allies

@@ -25,18 +25,14 @@ class SelectTargetAllyPanel : ToggleGroupInherit
 	}
 
 	public async UniTask Prepare(){
-		toggles = new List<Toggle>();
+		toggles = new List<ToggleInherit>();
 		var buttonPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/UI/SelectTargetToggle.prefab").Task;
 		GameObject instance;
-		// Button button;
-		BaseButton systemButton;
 		foreach(Creature ally in allies)
 		{
 			instance = Instantiate(buttonPrefab, parentPanel);
-			// button = instance.GetComponent<Button>();
-			systemButton = instance.GetComponent<BaseButton>();
-			systemButton.setText(ally.displayName);
-			Toggle toggle = instance.GetComponent<Toggle>();
+			ToggleInherit toggle = instance.GetComponent<ToggleInherit>();
+			toggle.SetObject(ally);
 			toggle.group = this;
 			toggles.Add(toggle);
 			// buttons.Add(button);

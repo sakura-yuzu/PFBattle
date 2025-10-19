@@ -30,15 +30,11 @@ class SelectSkillPanel : ToggleGroupInherit
 	{
 		var buttonPrefab = await Addressables.LoadAssetAsync<GameObject>("Assets/Buttle/Prefab/UI/SelectSkillToggle.prefab").Task;
 		GameObject instance;
-		// Button button;
-		BaseButton systemButton;
 		foreach (SkillSetting skill in skills)
 		{
 			instance = Instantiate(buttonPrefab, parentPanel);
-			// button = instance.GetComponent<Button>();
-			systemButton = instance.GetComponent<BaseButton>();
-			systemButton.setText(skill.skillName);
-			Toggle toggle = instance.GetComponent<Toggle>();
+			ToggleInherit toggle = instance.GetComponent<ToggleInherit>();
+			toggle.SetObject(skill);
 			toggle.group = this;
 
 			Debug.Log($"skill.targetType: {skill.targetType}");

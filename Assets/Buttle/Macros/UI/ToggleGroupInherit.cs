@@ -15,34 +15,15 @@ using Cysharp.Threading.Tasks;
 
 class ToggleGroupInherit : ToggleGroup
 {
-	public List<Toggle> toggles;
+	public List<ToggleInherit> toggles;
 	public EventSystem eventSystem;
 	public GameObject selfPanel;
 	public GameObject prevPanel;
 
 	public void SetAllTogglesEnable(bool enable)
 	{
-		toggles.ForEach((Toggle toggle) => { toggle.enabled = enable; });
+		// toggles.ForEach((ToggleInherit toggle) => { toggle.enabled = enable; });
 	}
-
-	public string getValue()
-	{
-		IEnumerable<Toggle> ggles = this.ActiveToggles();
-		Toggle toggle = ggles.FirstOrDefault();
-		if (toggle)
-		{
-			return toggle.GetComponent<BaseButton>().value;
-		}
-		return "";
-	}
-
-	public string[] getValues()
-	{
-		return toggles
-			.Select(toggle => toggle.GetComponent<BaseButton>().value)
-			.ToArray();
-	}
-
 	public async UniTask selectAsync(CancellationToken cancellationToken)
 	{
 		if (toggles.Count == 0)
@@ -63,10 +44,10 @@ class ToggleGroupInherit : ToggleGroup
 		foreach (string name in nameList)
 		{
 			var toggle = Instantiate(togglePrefab, transform);
-			toggle.GetComponent<BaseButton>().value = name;
+			// toggle.GetComponent<BaseButton>().value = name;
 			toggle.GetComponentInChildren<TextMeshProUGUI>().text = name;
 			// toggle.Find("Label").GetComponent<Text>().text = name;
-			toggles.Add(toggle.GetComponent<Toggle>());
+			toggles.Add(toggle.GetComponent<ToggleInherit>());
 		}
 		await UniTask.Yield();
 	}
@@ -101,5 +82,21 @@ class ToggleGroupInherit : ToggleGroup
 	override protected void OnDestroy()
 	{
 		Debug.Log($"{gameObject.name} destroyed");
+	}
+
+	public T GetSelectedObject<T>() where T : class {
+		Toggle toggle = Array.Find<Toggle>(ActiveToggles().ToArray(), toggle => toggle.isOn);
+		if (toggle)
+		{
+			return toggle.GetComponent<ToggleInherit>().GetObject<T>();
+		}
+		return null;
+	}
+
+	public List<T> GetSelectedObjects<T>() where T : class {
+		return ActiveToggles()
+			.Select(toggle => toggle.GetComponent<ToggleInherit>().GetObject<T>())
+			.Where(obj => obj != null)
+			.ToList();
 	}
 }

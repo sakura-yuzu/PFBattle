@@ -5,16 +5,17 @@ using UnityEngine;
 
 using System.Threading;
 using Cysharp.Threading.Tasks;
-public class Skill : MonoBehaviour
+public class Item : MonoBehaviour
 {
-  public SkillSetting setting;
+  public ItemSetting setting;
 
-  public Skill()
+  public Item()
   {
 
   }
-	public string skillName()
-	{
-		return setting.skillName;
-	}
+
+  public string itemName()
+  {
+    return setting.itemName;
+  }
 }

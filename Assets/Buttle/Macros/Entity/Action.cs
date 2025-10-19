@@ -6,14 +6,17 @@ using System.Linq;
 
 public class Action
 {
-	public string skill;
-	public string item;
-	public List<string> enemies;
-	public List<string> allies;
+	public SkillSetting skill;
+	public Item item;
+	public List<Creature> enemies;
+	public List<Creature> allies;
 	public ActionType actionType;
 	public Character actioner;
 
-	public Action(string actionTypeStr, string skill, string item, List<string> enemies, List<string> allies)
+	public int damage;
+	public int heal; // TODO: 回復量の計算
+
+	public Action(string actionTypeStr, SkillSetting skill, Item item, List<Creature> enemies, List<Creature> allies)
 	{
 		actionType = ActionType.Attack; //(ActionType)Enum.Parse(typeof(ActionType), actionTypeStr);
 		this.skill = skill;
@@ -42,7 +45,44 @@ public class Action
 
 	public bool isAttack()
 	{
-		// TODO: スキル側の判定が違う
-		return actionType == ActionType.Attack || (actionType == ActionType.Skill && skill == "Attack");
+		if (actionType == ActionType.Attack)
+		{
+			return true;
+		}
+		if (actionType == ActionType.Skill)
+		{
+			return skill.isAttack();
+		}
+		// TODO: アイテム判定
+		return false;
+	}
+	public bool isHeal()
+	{
+		if (actionType == ActionType.Skill)
+		{
+			return skill.isHeal();
+		}
+		// TODO: アイテム判定
+		return false;
+	}
+
+	public bool isBuff()
+	{
+		if (actionType == ActionType.Skill)
+		{
+			return skill.isBuff();
+		}
+		// TODO: アイテム判定
+		return false;
+	}
+
+	public bool isDebuff()
+	{
+		if (actionType == ActionType.Skill)
+		{
+			return skill.isDebuff();
+		}
+		// TODO: アイテム判定
+		return false;
 	}
 }

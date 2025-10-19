@@ -340,8 +340,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5753423713051444755}
-  - component: {fileID: 5753423713051444754}
-  - component: {fileID: 1024279356}
+  - component: {fileID: -5545473913262154692}
   m_Layer: 5
   m_Name: SelectTargetToggle
   m_TagString: Untagged
@@ -371,7 +370,7 @@ RectTransform:
   m_AnchoredPosition: {x: 100, y: -25}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5753423713051444754
+--- !u!114 &-5545473913262154692
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -380,7 +379,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5753423713051444753}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Script: {fileID: 11500000, guid: a6b04f2ecb1a0a442948985e23acdbd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -393,7 +392,7 @@ MonoBehaviour:
   m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 0, b: 0, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -419,18 +418,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
---- !u!114 &1024279356
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5753423713051444753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 687fa1504aee3ea4b94c97b37d7f8686, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tmp: {fileID: 574390800663102044}
-  value: "\u3044\u3082\u3080\u3057"
-  mountedButton: {fileID: 5753423713051444753}
+  value: 
+  creature: {fileID: 0}
+  skill: {fileID: 0}
