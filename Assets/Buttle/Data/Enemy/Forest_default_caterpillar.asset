@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Forest_default_caterpillar
   m_EditorClassIdentifier: 
   displayName: "\u3044\u3082\u3080\u3057"
-  hp: 0
+  hp: 100
   mp: 0
   attackPower: 10
   defensePower: 10
@@ -21,3 +21,4 @@ MonoBehaviour:
   prefabAddress: Assets/Buttle/Prefab/Enemy/caterpillar.prefab
   description: 
   skills: []
+  attributeType: 0

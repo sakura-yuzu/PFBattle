@@ -19,6 +19,8 @@ public class Creature : MonoBehaviour
 	public string prefabAddress;
 	public string description;
 	public Animator anim;
+
+	public bool dead;
 	public CreatureSetting.AttributeType attributeType = CreatureSetting.AttributeType.None;
 
 	protected virtual void Start()
@@ -29,10 +31,12 @@ public class Creature : MonoBehaviour
 		defensePower = setting.defensePower;
 		speed = setting.speed;
 		attributeType = setting.attributeType;
+		dead = false;
 	}
 
 	public async UniTask<int> Damaged(int damage)
 	{
+		Debug.Log($"{displayName} takes {damage} damage.");
 		hp -= damage;
 		if (anim == null || anim.Equals(null))
 		{
@@ -41,6 +45,13 @@ public class Creature : MonoBehaviour
 		anim?.SetBool("Damaged", true);
 		await UniTask.Delay(TimeSpan.FromSeconds(1f));
 		anim?.SetBool("Damaged", false);
+		Debug.Log($"{displayName} HP is now {hp}.");
+		if (hp <= 0)
+		{
+			Debug.Log($"{displayName} HP has reached zero.");
+			this.dead = true;
+			await Death();
+		}
 		return hp;
 	}
 	public async UniTask<int> Healed(int heal)
@@ -84,6 +95,7 @@ public class Creature : MonoBehaviour
 
 	public async UniTask Death()
 	{
+		Debug.Log($"{displayName} has died.");
 		if (anim == null || anim.Equals(null))
 		{
 			return;
@@ -92,41 +104,46 @@ public class Creature : MonoBehaviour
 		await UniTask.Delay(TimeSpan.FromSeconds(1f));
 		anim?.SetBool("Death", false);
 
-		anim = null;
-		Destroy(gameObject);
 	}
 
-	public async UniTask execute(Action action)
-	{
-		if (anim == null || anim.Equals(null))
-		{
-			return;
-		}
-		// switch (action.actionType)
-		// {
-		// 	case Action.ActionType.Attack:
-		// 		anim?.SetBool("Attack", true);
-		// 		await UniTask.Delay(TimeSpan.FromSeconds(1f));
-		// 		anim?.SetBool("Attack", false);
-		// 		break;
-		// 	case Action.ActionType.Defense:
-		// 		anim?.SetBool("Defense", true);
-		// 		await UniTask.Delay(TimeSpan.FromSeconds(1f));
-		// 		anim?.SetBool("Defense", false);
-		// 		break;
-		// 	case Action.ActionType.Skill:
-		// 		SkillSetting skill = skills.Where(skill => skill.skillName.Equals(action.skill)).First();
-		// 		anim?.SetBool(skill.skillName, true);
-		// 		await UniTask.Delay(TimeSpan.FromSeconds(1f));
-		// 		anim?.SetBool(skill.skillName, false);
-		// 		break;
-		// 	case Action.ActionType.Item:
-		// 		anim?.SetBool("Item", true);
-		// 		await UniTask.Delay(TimeSpan.FromSeconds(1f));
-		// 		anim?.SetBool("Item", false);
-		// 		break;
-		// }
-	}
+	public void Destroy()
+  {
+		anim = null;
+		Destroy(gameObject);
+  }
+
+
+	// public async UniTask execute(Action.ActionType actionType)
+	// {
+	// 	if (anim == null || anim.Equals(null))
+	// 	{
+	// 		return;
+	// 	}
+	// 	switch (actionType)
+	// 	{
+	// 		case Action.ActionType.Attack:
+	// 			anim?.SetBool("Attack", true);
+	// 			await UniTask.Delay(TimeSpan.FromSeconds(1f));
+	// 			anim?.SetBool("Attack", false);
+	// 			break;
+	// 		case Action.ActionType.Defense:
+	// 			anim?.SetBool("Defense", true);
+	// 			await UniTask.Delay(TimeSpan.FromSeconds(1f));
+	// 			anim?.SetBool("Defense", false);
+	// 			break;
+	// 		case Action.ActionType.Skill:
+	// 			SkillSetting skill = skills.Where(skill => skill.skillName.Equals(action.skill)).First();
+	// 			anim?.SetBool(skill.skillName, true);
+	// 			await UniTask.Delay(TimeSpan.FromSeconds(1f));
+	// 			anim?.SetBool(skill.skillName, false);
+	// 			break;
+	// 		case Action.ActionType.Item:
+	// 			anim?.SetBool("Item", true);
+	// 			await UniTask.Delay(TimeSpan.FromSeconds(1f));
+	// 			anim?.SetBool("Item", false);
+	// 			break;
+	// 	}
+	// }
 
 	public void ReactToAction(Action action)
 	{

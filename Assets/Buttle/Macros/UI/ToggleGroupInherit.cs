@@ -94,10 +94,9 @@ class ToggleGroupInherit : ToggleGroup
 		return null;
 	}
 
-	public List<T> GetSelectedObjects<T>() where T : class
+	public List<T> GetAllObjects<T>() where T : class
 	{
-		return ActiveToggles()
-			.Select(toggle => toggle.GetComponent<ToggleInherit>().GetObject<T>())
+		return toggles.Select(toggle => toggle.GetComponent<ToggleInherit>().GetObject<T>())
 			.Where(obj => obj != null)
 			.ToList();
 	}

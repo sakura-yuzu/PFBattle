@@ -12,8 +12,8 @@ class ActionManager
   public GameObject selectTargetEnemyPanel;
   public GameObject selectTargetAllyPanel;
   private List<ToggleGroupInherit> panels;
-	private List<Creature> enemies;
-	private List<Creature> allies;
+  private List<Creature> enemies;
+  private List<Creature> allies;
   public ActionManager(
     // EventSystem eventSystem,
     SelectActionPanel selectActionPanel,
@@ -37,6 +37,7 @@ class ActionManager
   }
   public async UniTask<Action> selectAction(Character actioner, List<Creature> aliveAllies, List<Creature> aliveEnemies, CancellationToken cancellationToken)
   {
+    selectActionPanel.gameObject.SetActive(true);
     selectSkillPanel.GetComponent<SelectSkillPanel>().setSkills(actioner.skills);
     selectSkillPanel.GetComponent<SelectSkillPanel>().Prepare();
     selectActionPanel.gameObject.SetActive(true);
@@ -47,32 +48,53 @@ class ActionManager
     selectTargetAllyPanel.SetActive(false);
     return action;
   }
-  
-  public async UniTask<Action> userInput(Character actioner, List<Creature> aliveAllies, List<Creature> aliveEnemies, CancellationToken cancellationToken){
-		// selectActionPanel.SetActive(true);
-		// await selectActionPanel.GetComponent<ToggleGroupInherit>().selectAsync(cancellationToken);
-		enemies = new List<Creature>();
-		allies = new List<Creature>();
 
-		await UniTask.WhenAny(panels
-			.Select(panel => panel.selectAsync(cancellationToken)));
+  public async UniTask<Action> userInput(Character actioner, List<Creature> aliveAllies, List<Creature> aliveEnemies, CancellationToken cancellationToken)
+  {
+    // selectActionPanel.SetActive(true);
+    // await selectActionPanel.GetComponent<ToggleGroupInherit>().selectAsync(cancellationToken);
+    enemies = new List<Creature>();
+    allies = new List<Creature>();
 
-		string actionType = selectActionPanel.GetComponent<ToggleGroupInherit>()?.GetSelectedObject<string>();
-		SkillSetting skill = selectSkillPanel.GetComponent<ToggleGroupInherit>()?.GetSelectedObject<SkillSetting>();
-		Item item = null;//selectItemPanel.GetComponent<ToggleGroupInherit>()?.GetSelectedObject<Item>();
+    await UniTask.WhenAny(panels
+      .Select(panel => panel.selectAsync(cancellationToken)));
 
-		// TODO: どうやって全体攻撃認識しようかなあ
-		enemies = selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.GetSelectedObjects<Creature>() ?? new List<Creature>();
-		allies.Add(selectTargetAllyPanel.GetComponent<ToggleGroupInherit>()?.GetSelectedObject<Creature>());
+    string actionType = selectActionPanel.GetComponent<ToggleGroupInherit>()?.GetSelectedObject<string>();
+    SkillSetting skill = selectSkillPanel.GetComponent<ToggleGroupInherit>()?.GetSelectedObject<SkillSetting>();
+    Item item = null;//selectItemPanel.GetComponent<ToggleGroupInherit>()?.GetSelectedObject<Item>();
 
-		Action action = new Action(
-			actionType,
-			skill,
-			item,
-			enemies,
-			allies
-		);
-		action.setActioner(actioner);
-		return action;
+    if (skill != null)
+    {
+      if (skill.targetType == SkillSetting.TargetType.EnemyAll)
+      {
+        enemies = selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.GetAllObjects<Creature>();
+      }
+      else if (skill.targetType == SkillSetting.TargetType.AllyAll)
+      {
+        allies = selectTargetAllyPanel.GetComponent<ToggleGroupInherit>()?.GetAllObjects<Creature>();
+      }
+      else if (skill.targetType == SkillSetting.TargetType.EnemyOne)
+      {
+        enemies.Add(selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.GetSelectedObject<Creature>());
+      }
+      else if (skill.targetType == SkillSetting.TargetType.AllyOne)
+      {
+        allies.Add(selectTargetAllyPanel.GetComponent<ToggleGroupInherit>()?.GetSelectedObject<Creature>());
+      }
+      
+    }else {
+      // 通常攻撃とかここ
+      enemies.Add(selectTargetEnemyPanel.GetComponent<ToggleGroupInherit>()?.GetSelectedObject<Creature>());
+    }
+
+    Action action = new Action(
+      actionType,
+      skill,
+      item,
+      enemies,
+      allies
+    );
+    action.setActioner(actioner);
+    return action;
   }
 }

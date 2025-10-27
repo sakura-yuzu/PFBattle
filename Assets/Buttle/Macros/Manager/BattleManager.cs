@@ -16,8 +16,8 @@ using TMPro;
 
 class BattleManager : MonoBehaviour
 {
-	private List<Creature> enemies;
-	private List<Creature> allies;
+	public List<Creature> enemies;
+	public List<Creature> allies;
 	public BattleData battleData;
 
 	// TODO: なんでアクションパネルとその他で型が違うんだか覚えてない
@@ -29,6 +29,7 @@ class BattleManager : MonoBehaviour
 	public GameObject characterStatusPanel;
 
 	private ActionManager actionManager;
+	private ActionExecutor actionExecutor;
 	private BattleStageManager battleStageManager;
 
 	private bool BattleContinue = true;
@@ -58,7 +59,9 @@ class BattleManager : MonoBehaviour
 			selectTargetEnemyPanel
 		);
 
-    /**
+		actionExecutor = new ActionExecutor();
+
+		/**
 		* バトルステージマネージャ
 		* エネミー、味方の生成、ステージの生成を行う
 		*/
@@ -93,29 +96,13 @@ class BattleManager : MonoBehaviour
 
 			foreach (Action action in actions)
 			{
-				action.execute();
-
-				foreach (var enemyName in action.enemies)
-				{
-					// TODO: 全体攻撃対応
-					Creature enemyCharacter = enemies.Find(enemy => enemy.displayName.Equals(enemyName));
-					if (enemyCharacter != null)
-					{
-						enemyCharacter.ReactToAction(action);
-					}
-				}
-
-				foreach (var characterName in action.allies)
-				{
-					Creature allyCharacter = allies.Find(ally => ally.displayName.Equals(characterName));
-					if (allyCharacter != null)
-					{
-						allyCharacter.ReactToAction(action);
-					}
-				}
+				await actionExecutor.execute(action);
 			}
 
-			BattleContinue = false;
+			enemies.RemoveAll(enemy => enemy.dead);
+			allies.RemoveAll(ally => ally.dead);
+
+			BattleContinue = (enemies.Count > 0 && allies.Count > 0);
 		} while (BattleContinue);
 	}
 

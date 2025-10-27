@@ -30,10 +30,10 @@ public class Action
 		this.actioner = character;
 	}
 
-	public async UniTask execute()
-	{
-		await this.actioner.execute(this);
-	}
+	// public async UniTask execute()
+	// {
+	// 	await this.actioner.execute(this);
+	// }
 
 	public enum ActionType
 	{
